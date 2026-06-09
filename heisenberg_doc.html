@@ -1,0 +1,2118 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Cluster Heisenberg — Guia do Usuário</title>
+  <style>
+    html {
+      line-height: 1.5;
+      font-family: Georgia, serif;
+      font-size: 20px;
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 62em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 1em;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+      font-size: 85%;
+      margin: 0;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {  background-color: #f8f8f8; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ef2929; } /* Alert */
+    code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #c4a000; } /* Attribute */
+    code span.bn { color: #0000cf; } /* BaseN */
+    code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4e9a06; } /* Char */
+    code span.cn { color: #000000; } /* Constant */
+    code span.co { color: #8f5902; font-style: italic; } /* Comment */
+    code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+    code span.dt { color: #204a87; } /* DataType */
+    code span.dv { color: #0000cf; } /* DecVal */
+    code span.er { color: #a40000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #0000cf; } /* Float */
+    code span.fu { color: #000000; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+    code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+    code span.ot { color: #8f5902; } /* Other */
+    code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+    code span.sc { color: #000000; } /* SpecialChar */
+    code span.ss { color: #4e9a06; } /* SpecialString */
+    code span.st { color: #4e9a06; } /* String */
+    code span.va { color: #000000; } /* Variable */
+    code span.vs { color: #4e9a06; } /* VerbatimString */
+    code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+
+    /* ── Layout improvements ── */
+    body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; font-size: 16px; color: #1a1a2e; }
+    h1, h2, h3, h4 { font-family: 'Segoe UI', system-ui, sans-serif; }
+    h1 { color: #1a237e; border-bottom: 2px solid #1a237e; padding-bottom: 0.3em; }
+    h2 { color: #283593; border-bottom: 1px solid #c5cae9; padding-bottom: 0.2em; }
+    h3 { color: #3949ab; }
+    a { color: #1565c0; }
+    a:visited { color: #4a148c; }
+
+    /* ── Code blocks ── */
+    pre {
+      background-color: #1e1e2e;
+      color: #cdd6f4;
+      border-radius: 6px;
+      padding: 1em 1.2em;
+      overflow-x: auto;
+      font-size: 0.88em;
+      line-height: 1.5;
+    }
+    code { font-family: 'Cascadia Code', 'Fira Code', Consolas, monospace; font-size: 0.9em; }
+    pre code { color: #cdd6f4; background: none; font-size: 1em; }
+    div.sourceCode { background: #1e1e2e; border-radius: 6px; margin: 1em 0; }
+    pre.sourceCode { background: transparent; padding: 1em 1.2em; }
+    code.sourceCode span.co { color: #6c7086; }  /* Comment */
+    code.sourceCode span.kw { color: #cba6f7; font-weight: bold; }
+    code.sourceCode span.st { color: #a6e3a1; }
+    code.sourceCode span.at { color: #89b4fa; }
+    code.sourceCode span.dv, code.sourceCode span.fl { color: #fab387; }
+    code.sourceCode span.va { color: #cdd6f4; }
+
+    /* ── Table ── */
+    table { border-collapse: collapse; width: 100%; font-size: 0.92em; }
+    th { background-color: #1a237e; color: white; padding: 0.5em 0.8em; text-align: left; }
+    td { padding: 0.4em 0.8em; border-bottom: 1px solid #e0e0e0; }
+    tr:nth-child(even) { background-color: #f5f5f5; }
+    tr:hover { background-color: #e8eaf6; }
+
+    /* ── TOC ── */
+    nav#TOC { background: #f8f9ff; border: 1px solid #c5cae9; border-radius: 6px;
+              padding: 1em 1.5em; margin: 1.5em 0; }
+    nav#TOC::before { content: "Sumário"; font-weight: bold; font-size: 1.1em; color: #1a237e;
+                      display: block; margin-bottom: 0.5em; }
+
+    /* ── Title page ── */
+    .titlepage { text-align: center; padding: 2em 0 1.5em; border-bottom: 2px solid #c5cae9; margin-bottom: 2em; }
+    .titlepage strong { font-size: 1.6em; color: #1a237e; }
+
+    /* ── Callout boxes ── */
+    .dica, .info, .atencao, .perigo, .tcolorbox {
+      border-radius: 6px; padding: 0.8em 1.1em; margin: 1.2em 0; }
+    .dica p:first-child::before, .info p:first-child::before,
+    .atencao p:first-child::before, .perigo p:first-child::before {
+      font-weight: bold; display: block; margin-bottom: 0.3em; font-size: 0.95em; }
+
+    .dica    { background: #e8f5e9; border-left: 5px solid #43a047; }
+    .dica p:first-child::before { content: "★ Dica"; color: #2e7d32; }
+
+    .info    { background: #e3f2fd; border-left: 5px solid #1e88e5; }
+    .info p:first-child::before { content: "ℹ Informação"; color: #1565c0; }
+
+    .atencao { background: #fff8e1; border-left: 5px solid #fb8c00; }
+    .atencao p:first-child::before { content: "⚠ Atenção"; color: #e65100; }
+
+    .perigo  { background: #ffebee; border-left: 5px solid #e53935; }
+    .perigo p:first-child::before { content: "✕ Perigo"; color: #b71c1c; }
+
+    .tcolorbox { background: #f3f4f8; border: 1px solid #9fa8da; }
+
+    /* remove color: codeblue inline style artifacts */
+    span[style*="codeblue"] { color: #1565c0 !important; }
+  </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#introdução-ao-cluster-heisenberg"
+id="toc-introdução-ao-cluster-heisenberg">Introdução ao Cluster
+Heisenberg</a>
+<ul>
+<li><a href="#arquitetura-geral" id="toc-arquitetura-geral">Arquitetura
+Geral</a></li>
+</ul></li>
+<li><a href="#infraestrutura-de-hardware"
+id="toc-infraestrutura-de-hardware">Infraestrutura de Hardware</a>
+<ul>
+<li><a href="#nós-de-trabalho" id="toc-nós-de-trabalho">Nós de
+Trabalho</a></li>
+</ul></li>
+<li><a href="#acesso-ao-cluster" id="toc-acesso-ao-cluster">Acesso ao
+Cluster</a>
+<ul>
+<li><a href="#pré-requisitos"
+id="toc-pré-requisitos">Pré-requisitos</a></li>
+<li><a href="#conectando-via-ssh" id="toc-conectando-via-ssh">Conectando
+via SSH</a>
+<ul>
+<li><a href="#linux-e-macos" id="toc-linux-e-macos">Linux e
+macOS</a></li>
+<li><a href="#windows" id="toc-windows">Windows</a></li>
+</ul></li>
+<li><a href="#reset-de-senha" id="toc-reset-de-senha">Reset de
+Senha</a></li>
+<li><a href="#abertura-de-chamados"
+id="toc-abertura-de-chamados">Abertura de Chamados</a></li>
+</ul></li>
+<li><a href="#tutorial-de-linux-para-iniciantes"
+id="toc-tutorial-de-linux-para-iniciantes">Tutorial de Linux para
+Iniciantes</a>
+<ul>
+<li><a href="#o-que-é-o-terminal" id="toc-o-que-é-o-terminal">O que é o
+Terminal?</a></li>
+<li><a href="#navegando-pelo-sistema-de-arquivos"
+id="toc-navegando-pelo-sistema-de-arquivos">Navegando pelo Sistema de
+Arquivos</a>
+<ul>
+<li><a href="#saber-onde-você-está" id="toc-saber-onde-você-está">Saber
+onde você está</a></li>
+<li><a href="#listar-arquivos" id="toc-listar-arquivos">Listar
+arquivos</a></li>
+<li><a href="#entrar-em-um-diretório"
+id="toc-entrar-em-um-diretório">Entrar em um diretório</a></li>
+<li><a href="#criar-diretórios" id="toc-criar-diretórios">Criar
+diretórios</a></li>
+</ul></li>
+<li><a href="#manipulação-de-arquivos"
+id="toc-manipulação-de-arquivos">Manipulação de Arquivos</a>
+<ul>
+<li><a href="#criar-um-arquivo-de-texto"
+id="toc-criar-um-arquivo-de-texto">Criar um arquivo de texto</a></li>
+<li><a href="#visualizar-conteúdo-de-arquivos"
+id="toc-visualizar-conteúdo-de-arquivos">Visualizar conteúdo de
+arquivos</a></li>
+<li><a href="#copiar-mover-e-remover"
+id="toc-copiar-mover-e-remover">Copiar, mover e remover</a></li>
+</ul></li>
+<li><a href="#transferência-de-arquivos"
+id="toc-transferência-de-arquivos">Transferência de Arquivos</a>
+<ul>
+<li><a href="#enviar-arquivos-para-o-cluster"
+id="toc-enviar-arquivos-para-o-cluster">Enviar arquivos para o
+cluster</a></li>
+<li><a href="#baixar-arquivos-do-cluster"
+id="toc-baixar-arquivos-do-cluster">Baixar arquivos do cluster</a></li>
+<li><a href="#transferência-com-interface-gráfica-winscp-windows"
+id="toc-transferência-com-interface-gráfica-winscp-windows">Transferência
+com Interface Gráfica: WinSCP (Windows)</a></li>
+</ul></li>
+<li><a href="#processos-e-monitoramento"
+id="toc-processos-e-monitoramento">Processos e Monitoramento</a></li>
+<li><a href="#busca-e-filtros" id="toc-busca-e-filtros">Busca e
+Filtros</a></li>
+<li><a href="#redirecionamento-e-pipes"
+id="toc-redirecionamento-e-pipes">Redirecionamento e Pipes</a></li>
+<li><a href="#dicas-de-produtividade-no-terminal"
+id="toc-dicas-de-produtividade-no-terminal">Dicas de Produtividade no
+Terminal</a></li>
+<li><a href="#executar-programas-em-segundo-plano"
+id="toc-executar-programas-em-segundo-plano">Executar Programas em
+Segundo Plano</a></li>
+</ul></li>
+<li><a href="#sec:modulos" id="toc-sec:modulos">Environment Modules</a>
+<ul>
+<li><a href="#comandos-básicos-de-módulos"
+id="toc-comandos-básicos-de-módulos">Comandos Básicos de
+Módulos</a></li>
+<li><a href="#módulos-disponíveis-no-heisenberg"
+id="toc-módulos-disponíveis-no-heisenberg">Módulos Disponíveis no
+Heisenberg</a>
+<ul>
+<li><a href="#aplicações-científicas-apps"
+id="toc-aplicações-científicas-apps">Aplicações Científicas
+(<code>apps</code>)</a></li>
+<li><a href="#bibliotecas-e-compiladores-libraries"
+id="toc-bibliotecas-e-compiladores-libraries">Bibliotecas e Compiladores
+(<code>libraries</code>)</a></li>
+</ul></li>
+<li><a href="#exemplo-carregando-o-gromacs"
+id="toc-exemplo-carregando-o-gromacs">Exemplo: Carregando o
+GROMACS</a></li>
+</ul></li>
+<li><a href="#sec:python" id="toc-sec:python">Python com Miniconda</a>
+<ul>
+<li><a href="#instalando-o-miniconda"
+id="toc-instalando-o-miniconda">Instalando o Miniconda</a></li>
+<li><a href="#criando-o-ambiente-ilumpy"
+id="toc-criando-o-ambiente-ilumpy">Criando o Ambiente
+<code>ilumpy</code></a></li>
+<li><a href="#instalando-bibliotecas-científicas-via-pip"
+id="toc-instalando-bibliotecas-científicas-via-pip">Instalando
+Bibliotecas Científicas via pip</a></li>
+<li><a href="#ativando-o-ambiente-automaticamente"
+id="toc-ativando-o-ambiente-automaticamente">Ativando o Ambiente
+Automaticamente</a></li>
+<li><a href="#comandos-úteis-do-conda"
+id="toc-comandos-úteis-do-conda">Comandos Úteis do Conda</a></li>
+</ul></li>
+<li><a href="#sec:slurm" id="toc-sec:slurm">Gerenciador de Filas
+Slurm</a>
+<ul>
+<li><a href="#filas-partitions-disponíveis"
+id="toc-filas-partitions-disponíveis">Filas (Partitions)
+Disponíveis</a></li>
+<li><a href="#comandos-essenciais-do-slurm"
+id="toc-comandos-essenciais-do-slurm">Comandos Essenciais do Slurm</a>
+<ul>
+<li><a href="#verificar-estado-das-filas"
+id="toc-verificar-estado-das-filas">Verificar estado das filas</a></li>
+<li><a href="#ver-jobs-em-execução" id="toc-ver-jobs-em-execução">Ver
+jobs em execução</a></li>
+</ul></li>
+<li><a href="#escrevendo-um-script-de-job"
+id="toc-escrevendo-um-script-de-job">Escrevendo um Script de Job</a>
+<ul>
+<li><a href="#parâmetros-principais-do-sbatch"
+id="toc-parâmetros-principais-do-sbatch">Parâmetros Principais do
+<code>#SBATCH</code></a></li>
+</ul></li>
+<li><a href="#exemplos-de-scripts-de-job"
+id="toc-exemplos-de-scripts-de-job">Exemplos de Scripts de Job</a>
+<ul>
+<li><a href="#job-simples-cpu-serial"
+id="toc-job-simples-cpu-serial">Job Simples (CPU, serial)</a></li>
+<li><a href="#job-com-mpi-múltiplos-processos"
+id="toc-job-com-mpi-múltiplos-processos">Job com MPI (múltiplos
+processos)</a></li>
+<li><a href="#job-com-gpu" id="toc-job-com-gpu">Job com GPU</a></li>
+<li><a href="#job-gromacs-exemplo-completo"
+id="toc-job-gromacs-exemplo-completo">Job GROMACS (exemplo
+completo)</a></li>
+<li><a href="#job-vasp" id="toc-job-vasp">Job VASP</a></li>
+</ul></li>
+<li><a href="#sec:jobs_python" id="toc-sec:jobs_python">Jobs Python</a>
+<ul>
+<li><a href="#job-python-serial" id="toc-job-python-serial">Job Python
+Serial</a></li>
+<li><a href="#job-python-paralelo" id="toc-job-python-paralelo">Job
+Python Paralelo</a></li>
+</ul></li>
+<li><a href="#submetendo-e-acompanhando-o-job"
+id="toc-submetendo-e-acompanhando-o-job">Submetendo e Acompanhando o
+Job</a></li>
+<li><a href="#sessão-interativa" id="toc-sessão-interativa">Sessão
+Interativa</a></li>
+<li><a href="#variáveis-de-ambiente-do-slurm"
+id="toc-variáveis-de-ambiente-do-slurm">Variáveis de Ambiente do
+Slurm</a></li>
+</ul></li>
+<li><a href="#boas-práticas" id="toc-boas-práticas">Boas Práticas</a>
+<ul>
+<li><a href="#organização-de-arquivos"
+id="toc-organização-de-arquivos">Organização de Arquivos</a></li>
+<li><a href="#estimativa-de-recursos"
+id="toc-estimativa-de-recursos">Estimativa de Recursos</a></li>
+<li><a href="#cotas-e-limites" id="toc-cotas-e-limites">Cotas e
+Limites</a></li>
+<li><a href="#etiqueta-no-uso-do-cluster"
+id="toc-etiqueta-no-uso-do-cluster">Etiqueta no Uso do Cluster</a></li>
+</ul></li>
+<li><a href="#guia-rápido-de-referência"
+id="toc-guia-rápido-de-referência">Guia Rápido de Referência</a>
+<ul>
+<li><a href="#cheatsheet-de-linux"
+id="toc-cheatsheet-de-linux">Cheatsheet de Linux</a></li>
+<li><a href="#cheatsheet-do-slurm"
+id="toc-cheatsheet-do-slurm">Cheatsheet do Slurm</a></li>
+<li><a href="#cheatsheet-de-módulos"
+id="toc-cheatsheet-de-módulos">Cheatsheet de Módulos</a></li>
+<li><a href="#cheatsheet-do-conda-python"
+id="toc-cheatsheet-do-conda-python">Cheatsheet do Conda /
+Python</a></li>
+</ul></li>
+<li><a href="#suporte-e-contato" id="toc-suporte-e-contato">Suporte e
+Contato</a></li>
+<li><a href="#glossário" id="toc-glossário">Glossário</a></li>
+<li><a href="#checklist-do-primeiro-uso"
+id="toc-checklist-do-primeiro-uso">Checklist do Primeiro Uso</a></li>
+</ul>
+</nav>
+<div class="titlepage">
+<p><strong>[Inserir logo do CNPEM / Ilum aqui]</strong><br />
+<span> <strong>Cluster Heisenberg</strong></span><br />
+<span> Guia do Usuário</span><br />
+<span> Do Terminal ao Primeiro Job</span><br />
+</p>
+<div class="tcolorbox">
+<p><strong>Endereço:</strong> <code>heisenberg.cnpem.br</code><br />
+<strong>Chamados:</strong> <a href="https://web-ilum.cnpem.br/chamado"
+class="uri">https://web-ilum.cnpem.br/chamado</a><br />
+<strong>Reset de senha:</strong> <code>http://172.20.10.15</code></p>
+</div>
+<p><span>CNPEM — Centro Nacional de Pesquisa em Energia e
+Materiais</span><br />
+<span>Ilum Escola de Ciência</span><br />
+<span> Versão 1.0 — Junho de 2026</span></p>
+</div>
+<h1 id="introdução-ao-cluster-heisenberg">Introdução ao Cluster
+Heisenberg</h1>
+<p>O <strong>Cluster Heisenberg</strong> é a infraestrutura de
+computação de alto desempenho (<em>High-Performance Computing</em> —
+HPC) disponibilizada pelo CNPEM para pesquisadores e estudantes da Ilum.
+Com ele, você pode executar simulações, análises de dados e treinamentos
+de modelos que seriam inviáveis em um computador pessoal, pois o cluster
+distribui o trabalho entre dezenas de processadores e placas de vídeo
+(GPUs) de forma coordenada.</p>
+<div class="info">
+<p>O cluster utiliza o gerenciador de filas <strong>Slurm</strong>
+(<em>Simple Linux Utility for Resource Management</em>) e o sistema de
+módulos <strong>Environment Modules</strong> para carregar softwares
+científicos. Ambos serão explicados em detalhe neste guia.</p>
+</div>
+<h2 id="arquitetura-geral">Arquitetura Geral</h2>
+<p>O cluster é composto por:</p>
+<ul>
+<li><p><strong>Nó de login (headnode):</strong>
+<code>heisenberg.cnpem.br</code> — o único ponto de acesso externo. É
+aqui que você faz login, edita scripts e submete jobs. <strong>Não
+execute simulações pesadas diretamente nele.</strong></p></li>
+<li><p><strong>Nós de trabalho (<em>worker nodes</em>):</strong>
+<code>work0</code> a <code>work8</code> — onde os jobs de fato rodam,
+gerenciados automaticamente pelo Slurm.</p></li>
+</ul>
+<h1 id="infraestrutura-de-hardware">Infraestrutura de Hardware</h1>
+<h2 id="nós-de-trabalho">Nós de Trabalho</h2>
+<p>A tabela abaixo resume o hardware de cada nó disponível no
+cluster.</p>
+<table>
+<caption>Hardware dos nós de trabalho do Cluster Heisenberg.</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;"><strong>Nó</strong></th>
+<th style="text-align: right;"><strong>CPUs</strong></th>
+<th style="text-align: right;"><strong>RAM (GB)</strong></th>
+<th style="text-align: right;"><strong>Sockets</strong></th>
+<th style="text-align: left;"><strong>GPU</strong></th>
+<th style="text-align: left;"><strong>Filas</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">work0</td>
+<td style="text-align: right;">128</td>
+<td style="text-align: right;">503</td>
+<td style="text-align: right;">2 × 64 cores</td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;">cpu</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">work1</td>
+<td style="text-align: right;">128</td>
+<td style="text-align: right;">503</td>
+<td style="text-align: right;">2 × 64 cores</td>
+<td style="text-align: left;">3 × NVIDIA T4</td>
+<td style="text-align: left;">cpu, gpu</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">work2</td>
+<td style="text-align: right;">64</td>
+<td style="text-align: right;">251</td>
+<td style="text-align: right;">2 × 32 cores</td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;">cpu</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">work3</td>
+<td style="text-align: right;">64</td>
+<td style="text-align: right;">251</td>
+<td style="text-align: right;">2 × 32 cores</td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;">cpu</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">work4</td>
+<td style="text-align: right;">16</td>
+<td style="text-align: right;">125</td>
+<td style="text-align: right;">1 × 16 cores</td>
+<td style="text-align: left;">1 × NVIDIA RTX 4090</td>
+<td style="text-align: left;">gpu</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">work5</td>
+<td style="text-align: right;">16</td>
+<td style="text-align: right;">125</td>
+<td style="text-align: right;">1 × 8 cores</td>
+<td style="text-align: left;">2 × NVIDIA RTX 4090</td>
+<td style="text-align: left;">gpu</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">work6</td>
+<td style="text-align: right;">16</td>
+<td style="text-align: right;">125</td>
+<td style="text-align: right;">1 × 8 cores</td>
+<td style="text-align: left;">2 × NVIDIA RTX 4090</td>
+<td style="text-align: left;">gpu</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">work7</td>
+<td style="text-align: right;">32</td>
+<td style="text-align: right;">188</td>
+<td style="text-align: right;">1 × 16 cores</td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;">cpu</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">work8</td>
+<td style="text-align: right;">48</td>
+<td style="text-align: right;">157</td>
+<td style="text-align: right;">2 × 12 cores</td>
+<td style="text-align: left;">1 × NVIDIA RTX 3060</td>
+<td style="text-align: left;">gpu</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<div class="info">
+<p>O nó <code>work7</code> encontra-se ocasionalmente em manutenção
+(<em>down</em>). Consulte o estado atual com <span
+style="color: codeblue"><code>sinfo</code></span> antes de planejar seus
+jobs.</p>
+</div>
+<h1 id="acesso-ao-cluster">Acesso ao Cluster</h1>
+<h2 id="pré-requisitos">Pré-requisitos</h2>
+<p>Para acessar o Heisenberg você precisará de:</p>
+<ol>
+<li><p>Uma conta ativa no sistema da Ilum/CNPEM;</p></li>
+<li><p>Um cliente SSH instalado no seu computador;</p></li>
+<li><p>Estar conectado à rede da Ilum (presencialmente ou via
+VPN).</p></li>
+</ol>
+<h2 id="conectando-via-ssh">Conectando via SSH</h2>
+<p><strong>SSH</strong> (<em>Secure Shell</em>) é o protocolo padrão
+para acessar servidores remotos com segurança pelo terminal.</p>
+<h3 id="linux-e-macos">Linux e macOS</h3>
+<p>Abra o terminal e execute:</p>
+<pre style="terminal"><code>$ ssh seu_usuario@heisenberg.cnpem.br</code></pre>
+<p>Substitua <code>seu_usuario</code> pelo seu login institucional.</p>
+<h3 id="windows">Windows</h3>
+<p>No Windows 10/11, o SSH já vem instalado. Abra o
+<strong>PowerShell</strong> ou o <strong>Terminal do Windows</strong>
+(tecle <code>Win + R</code>, digite <code>powershell</code> e pressione
+<code>Enter</code>) e use o mesmo comando:</p>
+<pre style="terminal"><code>ssh seu_usuario@heisenberg.cnpem.br</code></pre>
+<h2 id="reset-de-senha">Reset de Senha</h2>
+<p>Caso tenha esquecido sua senha, acesse o portal de reset pelo
+navegador:</p>
+<div class="center">
+<p><a href="http://172.20.10.15" class="uri">http://172.20.10.15</a></p>
+</div>
+<div class="atencao">
+<p>O portal de reset de senha só é acessível dentro da rede da Ilum ou
+via VPN.</p>
+</div>
+<h2 id="abertura-de-chamados">Abertura de Chamados</h2>
+<p>Para reportar problemas técnicos, solicitar novos softwares ou tirar
+dúvidas com a equipe de TI, utilize o sistema de chamados:</p>
+<div class="center">
+<p><a href="https://web-ilum.cnpem.br/chamado"
+class="uri">https://web-ilum.cnpem.br/chamado</a></p>
+</div>
+<h1 id="tutorial-de-linux-para-iniciantes">Tutorial de Linux para
+Iniciantes</h1>
+<div class="info">
+<p>Esta seção é voltada para quem nunca usou um terminal antes. Se você
+já tem experiência com Linux, pode pular para a Seção <a
+href="#sec:modulos" data-reference-type="ref"
+data-reference="sec:modulos">5</a>.</p>
+</div>
+<h2 id="o-que-é-o-terminal">O que é o Terminal?</h2>
+<p>O terminal (também chamado de <em>shell</em> ou <em>linha de
+comando</em>) é uma interface de texto onde você digita comandos para o
+computador executar. No cluster, <strong>toda interação é feita pelo
+terminal</strong> — não há área de trabalho gráfica.</p>
+<p>Após o login, você verá algo como:</p>
+<pre style="terminal"><code>usuario@heisenberg:~$</code></pre>
+<p>Isso significa: <code>usuario</code> = seu nome de usuário;
+<code>heisenberg</code> = nome da máquina; <code>~</code> = você está na
+sua pasta pessoal (<em>home</em>); <code>$</code> = pronto para receber
+comandos.</p>
+<h2 id="navegando-pelo-sistema-de-arquivos">Navegando pelo Sistema de
+Arquivos</h2>
+<p>O Linux organiza arquivos em uma árvore de diretórios. A raiz é
+<code>/</code>. Sua pasta pessoal fica em <code>/home/seu_usuario</code>
+e pode ser referenciada pelo atalho <code>~</code>.</p>
+<h3 id="saber-onde-você-está">Saber onde você está</h3>
+<pre style="terminal"><code>$ pwd
+/home/joao</code></pre>
+<p><span style="color: codeblue"><code>pwd</code></span> (<em>print
+working directory</em>) mostra o diretório atual.</p>
+<h3 id="listar-arquivos">Listar arquivos</h3>
+<pre style="terminal"><code>$ ls
+dados/  scripts/  simulacao.sh
+
+ls -lh
+total 12K
+drwxr-xr-x 2 joao joao 4096 jun  1 10:00 dados
+drwxr-xr-x 2 joao joao 4096 jun  1 10:01 scripts
+-rw-r--r-- 1 joao joao  512 jun  3 14:22 simulacao.sh</code></pre>
+<p><code>-l</code> exibe detalhes (permissões, tamanho, data);
+<code>-h</code> exibe tamanhos legíveis (KB, MB).</p>
+<h3 id="entrar-em-um-diretório">Entrar em um diretório</h3>
+<pre style="terminal"><code>$ cd dados
+pwd
+/home/joao/dados
+
+cd ..          # volta um nivel acima
+cd ~           # volta para a home
+cd -           # volta para o diretorio anterior</code></pre>
+<h3 id="criar-diretórios">Criar diretórios</h3>
+<pre style="terminal"><code>$ mkdir meu_projeto
+mkdir -p meu_projeto/resultados/graficos   # cria toda a arvore</code></pre>
+<h2 id="manipulação-de-arquivos">Manipulação de Arquivos</h2>
+<h3 id="criar-um-arquivo-de-texto">Criar um arquivo de texto</h3>
+<pre style="terminal"><code>$ nano meu_arquivo.txt</code></pre>
+<p>O <span style="color: codeblue"><code>nano</code></span> é um editor
+de texto simples que funciona direto no terminal.</p>
+<p>Atalhos do <span
+style="color: codeblue"><code>nano</code></span>:</p>
+<ul>
+<li><p><code>Ctrl+O</code> <span
+class="math inline">→</span> salvar (<em>O de
+Output</em>)</p></li>
+<li><p><code>Ctrl+X</code> <span
+class="math inline">→</span> sair</p></li>
+<li><p><code>Ctrl+W</code> <span
+class="math inline">→</span> buscar texto</p></li>
+</ul>
+<h3 id="visualizar-conteúdo-de-arquivos">Visualizar conteúdo de
+arquivos</h3>
+<pre style="terminal"><code>$ cat arquivo.txt          # exibe o arquivo inteiro
+less arquivo.txt         # paginado (q para sair, /termo para buscar)
+head -20 arquivo.txt     # primeiras 20 linhas
+tail -20 arquivo.txt     # ultimas 20 linhas
+tail -f log.out          # acompanha o arquivo em tempo real</code></pre>
+<h3 id="copiar-mover-e-remover">Copiar, mover e remover</h3>
+<pre style="terminal"><code>$ cp arquivo.txt copia.txt          # copiar arquivo
+cp -r pasta/ pasta_backup/        # copiar pasta inteira
+mv arquivo.txt novo_nome.txt      # renomear ou mover
+mv arquivo.txt /home/joao/dados/  # mover para outra pasta
+
+rm arquivo.txt                    # remover arquivo
+rm -r pasta/                      # remover pasta e tudo dentro</code></pre>
+<div class="perigo">
+<p>O comando <span style="color: codeblue"><code>rm</code></span> apaga
+arquivos <strong>permanentemente</strong> no Linux — não existe lixeira
+no terminal. Use com muito cuidado, especialmente com <code>-r</code>
+(recursivo). Nunca execute <code>rm -rf /</code> ou
+<code>rm -rf *</code> sem ter certeza absoluta do que está fazendo.</p>
+</div>
+<h2 id="transferência-de-arquivos">Transferência de Arquivos</h2>
+<p>Os comandos abaixo são digitados no <strong>terminal do seu próprio
+computador</strong> (PowerShell no Windows ou terminal no Linux/macOS),
+<strong>não</strong> no cluster. Substitua <code>james</code> pelo seu
+usuário.</p>
+<h3 id="enviar-arquivos-para-o-cluster">Enviar arquivos para o
+cluster</h3>
+<pre style="terminal"><code># Enviar um arquivo para a home do cluster
+scp foo.bar james@heisenberg.cnpem.br:~/
+
+# Enviar um arquivo para uma subpasta especifica
+scp foo.bar james@heisenberg.cnpem.br:~/dados/
+
+# Enviar uma pasta inteira (-r de recursivo)
+scp -r minha_pasta/ james@heisenberg.cnpem.br:~/</code></pre>
+<h3 id="baixar-arquivos-do-cluster">Baixar arquivos do cluster</h3>
+<pre style="terminal"><code># Baixar um arquivo para o diretorio atual
+scp james@heisenberg.cnpem.br:~/foo.bar ./
+
+# Baixar um arquivo de uma subpasta
+scp james@heisenberg.cnpem.br:~/resultados/output.dat ./
+
+# Baixar uma pasta inteira
+scp -r james@heisenberg.cnpem.br:~/resultados/ ./</code></pre>
+<div class="dica">
+<p>No Windows, esses comandos funcionam exatamente da mesma forma dentro
+do PowerShell. Não é necessário nenhum programa adicional.</p>
+</div>
+<h3
+id="transferência-com-interface-gráfica-winscp-windows">Transferência
+com Interface Gráfica: WinSCP (Windows)</h3>
+<p>Para quem prefere uma interface gráfica de arrastar e soltar, o
+<strong>WinSCP</strong> é uma alternativa prática no Windows. Ele
+permite navegar pelas pastas do cluster e transferir arquivos sem usar o
+terminal.</p>
+<p>Para um tutorial completo de instalação e uso do WinSCP com o
+Heisenberg, assista ao vídeo:</p>
+<div class="center">
+<p><a href="https://www.youtube.com/watch?v=2_rJNksIYjk"
+class="uri">https://www.youtube.com/watch?v=2_rJNksIYjk</a></p>
+</div>
+<h2 id="processos-e-monitoramento">Processos e Monitoramento</h2>
+<pre style="terminal"><code>$ top               # monitor de processos em tempo real (q para sair)
+htop              # versao melhorada do top (se disponivel)
+ps aux | grep meu_usuario   # listar seus processos
+kill 12345        # encerrar processo com PID 12345</code></pre>
+<h2 id="busca-e-filtros">Busca e Filtros</h2>
+<pre style="terminal"><code>$ grep &quot;erro&quot; log.out          # busca a palavra &quot;erro&quot; no arquivo
+grep -r &quot;funcao&quot; scripts/    # busca recursiva em uma pasta
+find . -name &quot;*.py&quot;          # encontra arquivos .py a partir do diretorio atual
+wc -l arquivo.txt            # conta linhas de um arquivo</code></pre>
+<h2 id="redirecionamento-e-pipes">Redirecionamento e Pipes</h2>
+<pre style="terminal"><code>$ ls -lh &gt; lista.txt         # redireciona saida para arquivo (sobrescreve)
+ls -lh &gt;&gt; lista.txt        # redireciona e acrescenta ao arquivo
+cat log.out | grep &quot;ERRO&quot;  # filtra linhas com &quot;ERRO&quot; do log
+sort numeros.txt | uniq    # ordena e remove duplicatas</code></pre>
+<h2 id="dicas-de-produtividade-no-terminal">Dicas de Produtividade no
+Terminal</h2>
+<div class="dica">
+<ul>
+<li><p><strong>Tab</strong> — completa automaticamente nomes de arquivos
+e comandos.</p></li>
+<li><p><strong>Seta <span class="math inline">↑</span>/<span
+class="math inline">↓</span></strong> — navega pelo histórico de
+comandos.</p></li>
+<li><p><strong>PageUp / PageDown</strong> — busca no histórico pelo que
+já foi digitado. Por exemplo, se você digitar <code>srun</code> e
+pressionar <strong>PageUp</strong>, o terminal mostrará o último comando
+que começava com <code>srun</code>.</p></li>
+<li><p><strong>Ctrl+C</strong> — cancela o comando em execução.</p></li>
+<li><p><strong>Ctrl+L</strong> — limpa a tela.</p></li>
+<li><p><strong>Ctrl+A</strong> / <strong>Ctrl+E</strong> — vai para o
+início/fim da linha.</p></li>
+<li><p><span style="color: codeblue"><code>history</code></span> — exibe
+os últimos comandos digitados.</p></li>
+<li><p><span style="color: codeblue"><code>man ls</code></span> — exibe
+o manual de qualquer comando (<code>q</code> para sair).</p></li>
+</ul>
+</div>
+<h2 id="executar-programas-em-segundo-plano">Executar Programas em
+Segundo Plano</h2>
+<p>Normalmente, quando você executa um comando no terminal, ele ocupa o
+prompt até terminar. Para liberar o terminal enquanto o programa ainda
+roda, use o <strong>&amp;</strong> ao final do comando:</p>
+<pre style="terminal"><code>$ programa &amp;
+[1] 18423</code></pre>
+<p>O número entre colchetes é o número do job e o seguinte é o PID do
+processo. O programa continua rodando em segundo plano enquanto você usa
+o terminal normalmente.</p>
+<p>O problema do <strong>&amp;</strong> sozinho é que, se você fechar a
+sessão SSH, o programa é encerrado junto. Para evitar isso, use <span
+style="color: codeblue"><code>nohup</code></span> (<em>no hang up</em>),
+que desconecta o processo da sessão:</p>
+<pre style="terminal"><code>$ nohup programa &gt; saida.out 2&gt; erros.err &amp;
+[1] 18424</code></pre>
+<p>O <code>&gt; saida.out</code> redireciona a saída padrão e
+<code>2&gt; erros.err</code> redireciona os erros, pois com <span
+style="color: codeblue"><code>nohup</code></span> o terminal não está
+mais disponível para exibir nada. O programa continuará rodando mesmo
+após você fechar o SSH.</p>
+<p>Para gerenciar processos em segundo plano:</p>
+<pre style="terminal"><code>$ jobs          # lista os processos em background desta sessao
+fg 1          # traz o job [1] de volta para o foreground
+kill 18424    # encerra o processo pelo PID</code></pre>
+<div class="atencao">
+<p>O <span style="color: codeblue"><code>nohup</code></span> serve para
+tarefas leves e rápidas, como scripts de pré ou pós-processamento.
+<strong>Não rode simulações pesadas diretamente no nó de login</strong>,
+independentemente de usar <span
+style="color: codeblue"><code>nohup</code></span> ou não. Para isso,
+utilize sempre o Slurm.</p>
+</div>
+<h1 id="sec:modulos">Environment Modules</h1>
+<p>O sistema de <strong>Environment Modules</strong> permite carregar e
+descarregar softwares científicos de forma isolada, sem conflitos entre
+versões. Quando você carrega um módulo, o sistema ajusta automaticamente
+variáveis como <code>PATH</code>, <code>LD_LIBRARY_PATH</code> e outras
+necessárias para o software funcionar.</p>
+<h2 id="comandos-básicos-de-módulos">Comandos Básicos de Módulos</h2>
+<pre style="terminal"><code>$ module avail              # lista todos os modulos disponiveis
+module avail gromacs      # filtra por nome
+module load gromacs/2026.0  # carrega o modulo
+module list               # mostra modulos carregados
+module unload gromacs/2026.0  # descarrega o modulo
+module purge              # descarrega todos os modulos
+module show gromacs/2026.0   # exibe o que o modulo configura
+module help               # ajuda</code></pre>
+<h2 id="módulos-disponíveis-no-heisenberg">Módulos Disponíveis no
+Heisenberg</h2>
+<h3 id="aplicações-científicas-apps">Aplicações Científicas
+(<code>apps</code>)</h3>
+<table>
+<caption>Aplicações científicas disponíveis.</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;"><strong>Módulo</strong></th>
+<th style="text-align: left;"><strong>Versão</strong></th>
+<th style="text-align: left;"><strong>Descrição</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>amber</code></td>
+<td style="text-align: left;">2024</td>
+<td style="text-align: left;">Simulação de dinâmica molecular
+(biomoléculas)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>gromacs</code></td>
+<td style="text-align: left;">2026.0</td>
+<td style="text-align: left;">Dinâmica molecular de alta
+performance</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>ORCA</code></td>
+<td style="text-align: left;">6.1.1</td>
+<td style="text-align: left;">Química quântica ab initio / DFT</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>quantum-espresso</code></td>
+<td style="text-align: left;">7.5</td>
+<td style="text-align: left;">DFT para sólidos e superfícies</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>quantum-espresso</code></td>
+<td style="text-align: left;">7.5-aocl</td>
+<td style="text-align: left;">Idem, otimizado com AOCL</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>vasp</code></td>
+<td style="text-align: left;">6.2.0</td>
+<td style="text-align: left;">Simulação ab initio de materiais</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>vasp</code></td>
+<td style="text-align: left;">6.2.0-aocl</td>
+<td style="text-align: left;">Idem, otimizado com AOCL</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<h3 id="bibliotecas-e-compiladores-libraries">Bibliotecas e Compiladores
+(<code>libraries</code>)</h3>
+<table>
+<caption>Bibliotecas e compiladores disponíveis.</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;"><strong>Módulo</strong></th>
+<th style="text-align: left;"><strong>Versão</strong></th>
+<th style="text-align: left;"><strong>Descrição</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>cuda</code></td>
+<td style="text-align: left;">12.4, 13.1</td>
+<td style="text-align: left;">NVIDIA CUDA Toolkit (programação GPU)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>aocl</code></td>
+<td style="text-align: left;">5.3.0 / 5.3.0-mt / 5.3.0-st</td>
+<td style="text-align: left;">AMD Optimizing CPU Libraries</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>elpa</code></td>
+<td style="text-align: left;">2024.05.001</td>
+<td style="text-align: left;">Eigenvalue SoLvers para HPC</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>hwloc</code></td>
+<td style="text-align: left;">2.12.2</td>
+<td style="text-align: left;">Topologia de hardware</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>intel/compiler</code></td>
+<td style="text-align: left;">2025.3.0</td>
+<td style="text-align: left;">Intel oneAPI C/C++/Fortran</td>
+</tr>
+<tr class="even">
+<td
+style="text-align: left;"><code>intel/compiler-intel-llvm</code></td>
+<td style="text-align: left;">2025.3.0</td>
+<td style="text-align: left;">Intel LLVM compiler</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>intel/mkl</code></td>
+<td style="text-align: left;">2025.3</td>
+<td style="text-align: left;">Intel Math Kernel Library</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>intel/mpi</code></td>
+<td style="text-align: left;">2021.17</td>
+<td style="text-align: left;">Intel MPI</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>intel/tbb</code></td>
+<td style="text-align: left;">2022.3</td>
+<td style="text-align: left;">Intel Threading Building Blocks</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>intel/dnnl</code></td>
+<td style="text-align: left;">3.9.1</td>
+<td style="text-align: left;">Deep Neural Network Library</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>intel/debugger</code></td>
+<td style="text-align: left;">2025.3.0</td>
+<td style="text-align: left;">Intel Debugger</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>openmpi</code></td>
+<td style="text-align: left;">4.1.8, 5.0.9</td>
+<td style="text-align: left;">Open MPI (comunicação entre
+processos)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>pmix</code></td>
+<td style="text-align: left;">5.0.9</td>
+<td style="text-align: left;">Process Management Interface</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>scalapack</code></td>
+<td style="text-align: left;">2.2.0-ompi509</td>
+<td style="text-align: left;">ScaLAPACK (álgebra linear paralela)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<h2 id="exemplo-carregando-o-gromacs">Exemplo: Carregando o GROMACS</h2>
+<pre style="terminal"><code>$ module load gromacs/2026.0
+gmx --version</code></pre>
+<div class="dica">
+<p>Para garantir que o ambiente correto seja carregado toda vez que você
+fizer login, adicione o comando <span
+style="color: codeblue"><code>module load</code></span> ao arquivo
+<code>~/.bashrc</code>:</p>
+<pre style="terminal"><code>$ nano ~/.bashrc
+# Adicione ao final:
+module load gromacs/2026.0</code></pre>
+</div>
+<h1 id="sec:python">Python com Miniconda</h1>
+<p><strong>Miniconda</strong> é um instalador minimalista do gerenciador
+de pacotes <strong>conda</strong>. Ele permite criar <strong>ambientes
+virtuais</strong> isolados, onde cada projeto pode ter sua própria
+versão do Python e suas próprias bibliotecas, sem interferir no sistema
+ou em outros projetos.</p>
+<div class="info">
+<p>O Miniconda é instalado <strong>na sua área pessoal</strong>
+(<code>~/</code>), sem necessidade de permissão de administrador. Cada
+usuário instala e gerencia seu próprio ambiente.</p>
+</div>
+<h2 id="instalando-o-miniconda">Instalando o Miniconda</h2>
+<p><strong>Passo 1 — Baixar o instalador:</strong></p>
+<pre style="terminal"><code>$ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh</code></pre>
+<p><strong>Passo 2 — Executar o instalador:</strong></p>
+<pre style="terminal"><code>$ bash Miniconda3-latest-Linux-x86_64.sh</code></pre>
+<p>O instalador fará algumas perguntas:</p>
+<ul>
+<li><p><strong>Do you accept the license terms?</strong> <span
+class="math inline">→</span> Digite <code>yes</code> e
+pressione <code>Enter</code>.</p></li>
+<li><p><strong>Confirm install location</strong> <span
+class="math inline">→</span> Pressione <code>Enter</code>
+para aceitar o padrão (<code>~/miniconda3</code>).</p></li>
+<li><p><strong>Do you wish the installer to initialize
+Miniconda3?</strong> →
+Digite <code>yes</code> e pressione <code>Enter</code>. Isso configura o
+conda automaticamente no seu shell.</p></li>
+</ul>
+<p><strong>Passo 3 — Recarregar o shell:</strong></p>
+<pre style="terminal"><code>$ source ~/.bashrc</code></pre>
+<p>Após isso, o prompt mostrará <code>(base)</code> antes do seu nome de
+usuário, indicando que o conda está ativo.</p>
+<p><strong>Passo 4 — Verificar a instalação:</strong></p>
+<pre style="terminal"><code>$ conda --version
+conda 24.x.x</code></pre>
+<h2 id="criando-o-ambiente-ilumpy">Criando o Ambiente
+<code>ilumpy</code></h2>
+<p>Com o conda instalado, crie um ambiente dedicado com Python 3.11:</p>
+<pre style="terminal"><code>$ conda create -n ilumpy python=3.11</code></pre>
+<p>O conda listará os pacotes que serão instalados e pedirá confirmação.
+Digite <code>y</code> e pressione <code>Enter</code>.</p>
+<p><strong>Ative o ambiente:</strong></p>
+<pre style="terminal"><code>$ conda activate ilumpy</code></pre>
+<p>O prompt mudará para <code>(ilumpy)</code>, confirmando que o
+ambiente está ativo:</p>
+<pre style="terminal"><code>(ilumpy) usuario@heisenberg:~$</code></pre>
+<p><strong>Verifique a versão do Python:</strong></p>
+<pre style="terminal"><code>$ python --version
+Python 3.11.x</code></pre>
+<h2 id="instalando-bibliotecas-científicas-via-pip">Instalando
+Bibliotecas Científicas via pip</h2>
+<p>Com o ambiente <code>ilumpy</code> ativo, instale as bibliotecas mais
+utilizadas em Python científico com um único comando:</p>
+<pre style="terminal"><code>$ pip install numpy scipy matplotlib pandas seaborn scikit-learn \
+              jupyter ipython sympy tqdm h5py pyarrow statsmodels \
+              networkx pillow MDAnalysis ase</code></pre>
+<p>A tabela abaixo descreve o propósito de cada biblioteca:</p>
+<table>
+<caption>Bibliotecas Python instaladas no ambiente
+<code>ilumpy</code>.</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;"><strong>Biblioteca</strong></th>
+<th style="text-align: left;"><strong>Finalidade</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>numpy</code></td>
+<td style="text-align: left;">Arrays numéricos e álgebra linear</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>scipy</code></td>
+<td style="text-align: left;">Algoritmos científicos (integração,
+otimização, estatística)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>matplotlib</code></td>
+<td style="text-align: left;">Geração de gráficos e visualizações</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>pandas</code></td>
+<td style="text-align: left;">Manipulação de dados tabulares
+(DataFrames)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>seaborn</code></td>
+<td style="text-align: left;">Gráficos estatísticos de alta
+qualidade</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>scikit-learn</code></td>
+<td style="text-align: left;">Aprendizado de máquina clássico</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>jupyter</code></td>
+<td style="text-align: left;">Notebooks interativos (Jupyter Notebook /
+Lab)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>ipython</code></td>
+<td style="text-align: left;">Console Python interativo aprimorado</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>sympy</code></td>
+<td style="text-align: left;">Matemática simbólica</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>tqdm</code></td>
+<td style="text-align: left;">Barras de progresso em loops</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>h5py</code></td>
+<td style="text-align: left;">Leitura/escrita de arquivos HDF5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>pyarrow</code></td>
+<td style="text-align: left;">Leitura/escrita de arquivos Parquet e
+Arrow</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>statsmodels</code></td>
+<td style="text-align: left;">Modelos estatísticos e econométricos</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>networkx</code></td>
+<td style="text-align: left;">Análise de grafos e redes</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>pillow</code></td>
+<td style="text-align: left;">Processamento de imagens</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>MDAnalysis</code></td>
+<td style="text-align: left;">Análise de trajetórias de dinâmica
+molecular</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>ase</code></td>
+<td style="text-align: left;">Atomic Simulation Environment (materiais e
+moléculas)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<h2 id="ativando-o-ambiente-automaticamente">Ativando o Ambiente
+Automaticamente</h2>
+<p>Para não precisar digitar <span
+style="color: codeblue"><code>conda activate ilumpy</code></span> a cada
+login, adicione a ativação ao arquivo <code>~/.bashrc</code>:</p>
+<pre style="terminal"><code>$ nano ~/.bashrc</code></pre>
+<p>Adicione a linha abaixo ao final do arquivo:</p>
+<pre style="terminal"><code>conda activate ilumpy</code></pre>
+<p>Salve com <code>Ctrl+O</code> e saia com <code>Ctrl+X</code>. Na
+próxima vez que fizer login, o ambiente <code>ilumpy</code> já estará
+ativo.</p>
+<h2 id="comandos-úteis-do-conda">Comandos Úteis do Conda</h2>
+<pre style="terminal"><code>$ conda activate ilumpy      # ativa o ambiente
+conda deactivate           # desativa (volta para base)
+conda env list             # lista todos os ambientes
+conda list                 # lista pacotes do ambiente ativo
+pip list                   # idem, para pacotes instalados via pip
+pip install nome_pacote    # instala novo pacote
+pip show numpy             # informacoes sobre um pacote</code></pre>
+<div class="dica">
+<p>Sempre ative o ambiente correto <strong>antes</strong> de submeter um
+job que rode Python. No script <code>.sh</code>, inclua <span
+style="color: codeblue"><code>conda activate ilumpy</code></span> logo
+após carregar os módulos necessários. Veja os exemplos na Seção <a
+href="#sec:jobs_python" data-reference-type="ref"
+data-reference="sec:jobs_python">7.5</a>.</p>
+</div>
+<h1 id="sec:slurm">Gerenciador de Filas Slurm</h1>
+<p>O <strong>Slurm</strong> é o software que gerencia e distribui os
+recursos do cluster entre os usuários. Você não executa seus programas
+diretamente; em vez disso, escreve um <strong>script de job</strong> que
+descreve os recursos necessários (CPUs, memória, tempo, GPUs) e o
+submete à fila. O Slurm decide quando e em qual nó o job irá rodar.</p>
+<h2 id="filas-partitions-disponíveis">Filas (Partitions)
+Disponíveis</h2>
+<table>
+<caption>Partições (filas) do Cluster Heisenberg.</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;"><strong>Fila</strong></th>
+<th style="text-align: left;"><strong>Default</strong></th>
+<th style="text-align: left;"><strong>Nós</strong></th>
+<th style="text-align: right;"><strong>CPUs Totais</strong></th>
+<th style="text-align: left;"><strong>Obs.</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>cpu</code></td>
+<td style="text-align: left;">Sim</td>
+<td style="text-align: left;">work0–3, work7</td>
+<td style="text-align: right;">416</td>
+<td style="text-align: left;">Apenas CPU</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>gpu</code></td>
+<td style="text-align: left;">Não</td>
+<td style="text-align: left;">work1, work4–6, work8</td>
+<td style="text-align: right;">224</td>
+<td style="text-align: left;">CPU + GPU</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<div class="atencao">
+<p>A fila <code>cpu</code> é a padrão. Se seu job precisar de GPU,
+especifique explicitamente <code>–partition=gpu</code> e
+<code>–gres=gpu:1</code> no script.</p>
+</div>
+<h2 id="comandos-essenciais-do-slurm">Comandos Essenciais do Slurm</h2>
+<table>
+<caption>Comandos principais do Slurm.</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;"><strong>Comando</strong></th>
+<th style="text-align: left;"><strong>Função</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><span
+style="color: codeblue"><code>sinfo</code></span></td>
+<td style="text-align: left;">Ver estado das filas e nós</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span
+style="color: codeblue"><code>squeue</code></span></td>
+<td style="text-align: left;">Ver jobs na fila</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span
+style="color: codeblue"><code>sbatch script.sh</code></span></td>
+<td style="text-align: left;">Submeter um job (modo batch)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span
+style="color: codeblue"><code>srun</code></span></td>
+<td style="text-align: left;">Executar interativamente</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span
+style="color: codeblue"><code>scancel JOBID</code></span></td>
+<td style="text-align: left;">Cancelar um job</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span
+style="color: codeblue"><code>sacct</code></span></td>
+<td style="text-align: left;">Ver histórico de jobs</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span
+style="color: codeblue"><code>scontrol show job JOBID</code></span></td>
+<td style="text-align: left;">Detalhes de um job específico</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<h3 id="verificar-estado-das-filas">Verificar estado das filas</h3>
+<pre style="terminal"><code>$ sinfo
+PARTITION  AVAIL  TIMELIMIT  NODES  STATE   NODELIST
+cpu*       up     infinite   2      mix     work[0-1]
+cpu*       up     infinite   2      alloc   work[2-3]
+gpu        up     infinite   3      mix     work[1,4-5]
+gpu        up     infinite   2      idle    work[6,8]</code></pre>
+<p>Os estados dos nós significam:</p>
+<ul>
+<li><p><code>idle</code> — nó livre, pronto para receber jobs;</p></li>
+<li><p><code>mix</code> — parcialmente ocupado (alguns CPUs
+livres);</p></li>
+<li><p><code>alloc</code> — totalmente ocupado;</p></li>
+<li><p><code>down</code> — nó fora de serviço.</p></li>
+</ul>
+<h3 id="ver-jobs-em-execução">Ver jobs em execução</h3>
+<pre style="terminal"><code>$ squeue
+JOBID    USER     NAME            PARTITION  STATE   TIME      NODES
+9426     joao     simulacao.sh    cpu        RUNNING 40:13     1
+9427     maria    analise.sh      gpu        PENDING 0:00      1
+
+squeue -u meu_usuario    # apenas seus jobs</code></pre>
+<h2 id="escrevendo-um-script-de-job">Escrevendo um Script de Job</h2>
+<p>Um script de job é um arquivo de texto com extensão <code>.sh</code>
+contendo:</p>
+<ol>
+<li><p>Diretivas Slurm (iniciadas com <code>#SBATCH</code>);</p></li>
+<li><p>Comandos para carregar módulos;</p></li>
+<li><p>O comando do seu programa.</p></li>
+</ol>
+<h3 id="parâmetros-principais-do-sbatch">Parâmetros Principais do
+<code>#SBATCH</code></h3>
+<table>
+<caption>Principais diretivas <code>#SBATCH</code>.</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;"><strong>Parâmetro</strong></th>
+<th style="text-align: left;"><strong>Descrição</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>–job-name=nome</code></td>
+<td style="text-align: left;">Nome do job (aparece no <span
+style="color: codeblue"><code>squeue</code></span>)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>–partition=cpu</code></td>
+<td style="text-align: left;">Fila a usar (<code>cpu</code> ou
+<code>gpu</code>)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>–nodes=1</code></td>
+<td style="text-align: left;">Número de nós</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>–ntasks=1</code></td>
+<td style="text-align: left;">Número de tarefas MPI</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>–cpus-per-task=8</code></td>
+<td style="text-align: left;">CPUs por tarefa (threads OpenMP)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>–mem=16G</code></td>
+<td style="text-align: left;">Memória total por nó</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>–time=12:00:00</code></td>
+<td style="text-align: left;">Tempo máximo (HH:MM:SS)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>–gres=gpu:1</code></td>
+<td style="text-align: left;">Solicitar 1 GPU</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>–output=saida.out</code></td>
+<td style="text-align: left;">Arquivo de saída padrão</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>–error=erros.err</code></td>
+<td style="text-align: left;">Arquivo de erros</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>–mail-type=END,FAIL</code></td>
+<td style="text-align: left;">Notificação por e-mail</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>–mail-user=email@ilum.br</code></td>
+<td style="text-align: left;">E-mail para notificações</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<h2 id="exemplos-de-scripts-de-job">Exemplos de Scripts de Job</h2>
+<h3 id="job-simples-cpu-serial">Job Simples (CPU, serial)</h3>
+<div class="sourceCode" id="cb36" style="script"
+data-language="bash"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --job-name=meu_primeiro_job</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --partition=cpu</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --nodes=1</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --ntasks=1</span></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --cpus-per-task=4</span></span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --mem=8G</span></span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --time=02:00:00</span></span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --output=saida_%j.out</span></span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --error=erros_%j.err</span></span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Carregar modulos necessarios</span></span>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load intel/compiler/2025.3.0</span>
+<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Executar o programa</span></span>
+<span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;Job iniciado: </span><span class="va">$(</span><span class="fu">date</span><span class="va">)</span><span class="st">&quot;</span></span>
+<span id="cb36-17"><a href="#cb36-17" aria-hidden="true" tabindex="-1"></a><span class="ex">./meu_programa</span> input.dat</span>
+<span id="cb36-18"><a href="#cb36-18" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;Job concluido: </span><span class="va">$(</span><span class="fu">date</span><span class="va">)</span><span class="st">&quot;</span></span></code></pre></div>
+<p>O <code>%j</code> no nome do arquivo será substituído automaticamente
+pelo número do job (JOBID), evitando sobrescrever saídas de execuções
+anteriores.</p>
+<h3 id="job-com-mpi-múltiplos-processos">Job com MPI (múltiplos
+processos)</h3>
+<div class="sourceCode" id="cb37" style="script"
+data-language="bash"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --job-name=simulacao_mpi</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --partition=cpu</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --nodes=2</span></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --ntasks=16</span></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --cpus-per-task=8</span></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --mem=64G</span></span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --time=24:00:00</span></span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --output=mpi_%j.out</span></span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --error=mpi_%j.err</span></span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load openmpi/5.0.9</span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load intel/mkl/2025.3</span>
+<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a><span class="ex">srun</span> ./programa_mpi input.dat</span></code></pre></div>
+<h3 id="job-com-gpu">Job com GPU</h3>
+<div class="sourceCode" id="cb38" style="script"
+data-language="bash"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --job-name=treinamento_gpu</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --partition=gpu</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --nodes=1</span></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --ntasks=1</span></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --cpus-per-task=8</span></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --gres=gpu:1</span></span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --mem=32G</span></span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --time=08:00:00</span></span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --output=gpu_%j.out</span></span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --error=gpu_%j.err</span></span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load cuda/12.4</span>
+<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-15"><a href="#cb38-15" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;GPU disponivel:&quot;</span></span>
+<span id="cb38-16"><a href="#cb38-16" aria-hidden="true" tabindex="-1"></a><span class="ex">nvidia-smi</span></span>
+<span id="cb38-17"><a href="#cb38-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-18"><a href="#cb38-18" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> treinar_modelo.py <span class="at">--epochs</span> 100</span></code></pre></div>
+<h3 id="job-gromacs-exemplo-completo">Job GROMACS (exemplo
+completo)</h3>
+<div class="sourceCode" id="cb39" style="script"
+data-language="bash"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --job-name=gromacs_md</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --partition=cpu</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --nodes=1</span></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --ntasks=1</span></span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --cpus-per-task=32</span></span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --mem=64G</span></span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --time=48:00:00</span></span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --output=gromacs_%j.out</span></span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --error=gromacs_%j.err</span></span>
+<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --mail-type=</span><span class="re">END</span><span class="co">,FAIL</span></span>
+<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --mail-user=meu@email.com.br</span></span>
+<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-14"><a href="#cb39-14" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load gromacs/2026.0</span>
+<span id="cb39-15"><a href="#cb39-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-16"><a href="#cb39-16" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">OMP_NUM_THREADS</span><span class="op">=</span><span class="va">$SLURM_CPUS_PER_TASK</span></span>
+<span id="cb39-17"><a href="#cb39-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-18"><a href="#cb39-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Etapa de equilibracao</span></span>
+<span id="cb39-19"><a href="#cb39-19" aria-hidden="true" tabindex="-1"></a><span class="ex">gmx</span> mdrun <span class="at">-v</span> <span class="at">-deffnm</span> equilibracao <span class="at">-ntmpi</span> 1 <span class="dt">\</span></span>
+<span id="cb39-20"><a href="#cb39-20" aria-hidden="true" tabindex="-1"></a>          <span class="at">-ntomp</span> <span class="va">$OMP_NUM_THREADS</span></span>
+<span id="cb39-21"><a href="#cb39-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-22"><a href="#cb39-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Producao</span></span>
+<span id="cb39-23"><a href="#cb39-23" aria-hidden="true" tabindex="-1"></a><span class="ex">gmx</span> mdrun <span class="at">-v</span> <span class="at">-deffnm</span> producao <span class="at">-ntmpi</span> 1 <span class="dt">\</span></span>
+<span id="cb39-24"><a href="#cb39-24" aria-hidden="true" tabindex="-1"></a>          <span class="at">-ntomp</span> <span class="va">$OMP_NUM_THREADS</span></span></code></pre></div>
+<h3 id="job-vasp">Job VASP</h3>
+<div class="sourceCode" id="cb40" style="script"
+data-language="bash"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --job-name=vasp_dft</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --partition=cpu</span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --nodes=1</span></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --ntasks=32</span></span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --mem=128G</span></span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --time=72:00:00</span></span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --output=vasp_%j.out</span></span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --error=vasp_%j.err</span></span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load vasp/6.2.0</span>
+<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-13"><a href="#cb40-13" aria-hidden="true" tabindex="-1"></a><span class="ex">mpirun</span> <span class="at">-np</span> <span class="va">$SLURM_NTASKS</span> vasp_std</span></code></pre></div>
+<h2 id="sec:jobs_python">Jobs Python</h2>
+<div class="info">
+<p><strong>Python é serial por padrão.</strong> O interpretador CPython
+possui uma trava interna chamada <strong>GIL</strong> (<em>Global
+Interpreter Lock</em>) que impede a execução simultânea de múltiplos
+<em>threads</em> Python no mesmo processo. Isso significa que, na maior
+parte dos casos, um script Python utiliza <strong>apenas 1 CPU</strong>
+por vez, independentemente de quantas CPUs você reserve no Slurm.</p>
+<p>O comportamento muda quando o script usa bibliotecas que realizam
+processamento paralelo internamente, como:</p>
+<ul>
+<li><p><strong>NumPy / SciPy / scikit-learn</strong> — operações
+vetorizadas podem usar múltiplos núcleos via BLAS/OpenBLAS em
+background;</p></li>
+<li><p><strong>multiprocessing</strong> / <strong>joblib</strong> /
+<strong>concurrent.futures</strong> — paralelismo explícito usando
+múltiplos processos;</p></li>
+<li><p><strong>PyTorch</strong> / <strong>TensorFlow</strong> (com GPU)
+— treinamento em GPU requer a fila <code>gpu</code> e
+<code>–gres=gpu:1</code>.</p></li>
+</ul>
+<p>Se o seu script não usa nenhuma dessas estratégias, solicite
+<strong>apenas 1 CPU</strong> e não desperdice recursos do cluster.</p>
+</div>
+<h3 id="job-python-serial">Job Python Serial</h3>
+<p>Use este modelo para scripts que <strong>não</strong> utilizam
+paralelismo explícito. A flag <code>-u</code> no comando Python desativa
+o buffer de saída, garantindo que as mensagens apareçam no arquivo de
+saída em tempo real (sem atraso).</p>
+<div class="sourceCode" id="cb41" style="script"
+data-language="bash"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --job-name=python_serial</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --partition=cpu</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --nodes=1</span></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --ntasks=1</span></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --cpus-per-task=1</span></span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --mem=8G</span></span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --time=04:00:00</span></span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --output=python_%j.out</span></span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --error=python_%j.err</span></span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Ativa o ambiente Python com as bibliotecas instaladas</span></span>
+<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate ilumpy</span>
+<span id="cb41-14"><a href="#cb41-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-15"><a href="#cb41-15" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;Inicio: </span><span class="va">$(</span><span class="fu">date</span><span class="va">)</span><span class="st">&quot;</span></span>
+<span id="cb41-16"><a href="#cb41-16" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;No: </span><span class="va">$(</span><span class="fu">hostname</span><span class="va">)</span><span class="st">&quot;</span></span>
+<span id="cb41-17"><a href="#cb41-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-18"><a href="#cb41-18" aria-hidden="true" tabindex="-1"></a><span class="co"># -u: saida sem buffer (aparece em tempo real no arquivo .out)</span></span>
+<span id="cb41-19"><a href="#cb41-19" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-u</span> script.py <span class="op">&gt;</span> script.out</span>
+<span id="cb41-20"><a href="#cb41-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-21"><a href="#cb41-21" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;Fim: </span><span class="va">$(</span><span class="fu">date</span><span class="va">)</span><span class="st">&quot;</span></span></code></pre></div>
+<div class="dica">
+<p>O redirecionamento <code>&gt; script.out</code> grava a saída do
+<em>print</em> do Python em <code>script.out</code>, enquanto erros e
+exceções vão para o arquivo <code>.err</code> definido no
+<code>#SBATCH</code>. Assim você tem os resultados e os erros separados,
+facilitando a depuração.</p>
+</div>
+<h3 id="job-python-paralelo">Job Python Paralelo</h3>
+<p>Use este modelo quando o script utiliza múltiplos processos ou
+threads para aproveitar mais de um núcleo — por exemplo com
+<code>multiprocessing</code>, <code>joblib</code> ou operações pesadas
+de NumPy/SciPy que usam BLAS em paralelo.</p>
+<div class="sourceCode" id="cb42" style="script"
+data-language="bash"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --job-name=python_paralelo</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --partition=cpu</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --nodes=1</span></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --ntasks=1</span></span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --cpus-per-task=16</span></span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --mem=32G</span></span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --time=08:00:00</span></span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --output=python_%j.out</span></span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --error=python_%j.err</span></span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate ilumpy</span>
+<span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-14"><a href="#cb42-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Informa ao script quantas CPUs foram alocadas pelo Slurm</span></span>
+<span id="cb42-15"><a href="#cb42-15" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">N_CPUS</span><span class="op">=</span><span class="va">$SLURM_CPUS_PER_TASK</span></span>
+<span id="cb42-16"><a href="#cb42-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-17"><a href="#cb42-17" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;Inicio: </span><span class="va">$(</span><span class="fu">date</span><span class="va">)</span><span class="st">&quot;</span></span>
+<span id="cb42-18"><a href="#cb42-18" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;No: </span><span class="va">$(</span><span class="fu">hostname</span><span class="va">)</span><span class="st">&quot;</span></span>
+<span id="cb42-19"><a href="#cb42-19" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;CPUs disponiveis: </span><span class="va">$N_CPUS</span><span class="st">&quot;</span></span>
+<span id="cb42-20"><a href="#cb42-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-21"><a href="#cb42-21" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-u</span> script.py <span class="op">&gt;</span> script.out</span>
+<span id="cb42-22"><a href="#cb42-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-23"><a href="#cb42-23" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;Fim: </span><span class="va">$(</span><span class="fu">date</span><span class="va">)</span><span class="st">&quot;</span></span></code></pre></div>
+<p>No script Python, leia a variável de ambiente para saber quantos
+núcleos usar:</p>
+<div class="sourceCode" id="cb43" style="script"
+data-language="Python"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> joblib <span class="im">import</span> Parallel, delayed</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>n_cpus <span class="op">=</span> <span class="bu">int</span>(os.environ.get(<span class="st">&quot;N_CPUS&quot;</span>, <span class="dv">1</span>))</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f&quot;Usando </span><span class="sc">{</span>n_cpus<span class="sc">}</span><span class="ss"> CPUs&quot;</span>)</span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Exemplo com joblib: executa &#39;minha_funcao&#39; em paralelo</span></span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>resultados <span class="op">=</span> Parallel(n_jobs<span class="op">=</span>n_cpus)(</span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>    delayed(minha_funcao)(i) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">100</span>)</span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="atencao">
+<p>Solicite apenas o número de CPUs que seu código
+<strong>realmente</strong> vai usar. Alocar 16 CPUs para um script
+serial desperdiça recursos e atrasa outros usuários na fila. Em caso de
+dúvida, comece com 1 CPU e aumente conforme necessário após verificar
+com <span style="color: codeblue"><code>sacct</code></span>.</p>
+</div>
+<h2 id="submetendo-e-acompanhando-o-job">Submetendo e Acompanhando o
+Job</h2>
+<pre style="terminal"><code># Submeter o job
+sbatch meu_script.sh
+Submitted batch job 9430
+
+# Verificar se esta na fila
+squeue -u meu_usuario
+JOBID  USER  NAME              STATE    TIME
+9430   joao  meu_primeiro_job  PENDING  0:00
+
+# Acompanhar a saida em tempo real
+tail -f saida_9430.out
+
+# Cancelar o job
+scancel 9430</code></pre>
+<h2 id="sessão-interativa">Sessão Interativa</h2>
+<p>Para testar comandos, depurar scripts ou usar programas interativos,
+solicite uma sessão interativa em vez de submeter um job:</p>
+<pre style="terminal"><code>$ srun --partition=cpu --nodes=1 --ntasks=4 --mem=8G \
+       --time=01:00:00 --pty bash
+
+# Com GPU:
+srun --partition=gpu --gres=gpu:1 --ntasks=4 \
+       --mem=16G --time=02:00:00 --pty bash</code></pre>
+<div class="atencao">
+<p>Sessões interativas também consomem recursos do cluster. Encerre-as
+com <span style="color: codeblue"><code>exit</code></span> assim que
+terminar o trabalho.</p>
+</div>
+<h2 id="variáveis-de-ambiente-do-slurm">Variáveis de Ambiente do
+Slurm</h2>
+<p>Dentro do script de job, o Slurm disponibiliza variáveis úteis:</p>
+<table>
+<caption>Variáveis de ambiente do Slurm.</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;"><strong>Variável</strong></th>
+<th style="text-align: left;"><strong>Conteúdo</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>$SLURM_JOB_ID</code></td>
+<td style="text-align: left;">ID do job</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>$SLURM_JOB_NAME</code></td>
+<td style="text-align: left;">Nome do job</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>$SLURM_NTASKS</code></td>
+<td style="text-align: left;">Número total de tarefas</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>$SLURM_CPUS_PER_TASK</code></td>
+<td style="text-align: left;">CPUs por tarefa</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>$SLURM_MEM_PER_NODE</code></td>
+<td style="text-align: left;">Memória por nó (MB)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>$SLURM_NODELIST</code></td>
+<td style="text-align: left;">Lista de nós alocados</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>$SLURM_SUBMIT_DIR</code></td>
+<td style="text-align: left;">Diretório de onde sbatch foi chamado</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<h1 id="boas-práticas">Boas Práticas</h1>
+<h2 id="organização-de-arquivos">Organização de Arquivos</h2>
+<p>Mantenha sua área de trabalho organizada. Uma estrutura sugerida:</p>
+<pre style="terminal"><code>~/
+|-- projetos/
+|   |-- simulacao_proteina/
+|   |   |-- input/
+|   |   |-- output/
+|   |   |-- scripts/
+|   |   `-- logs/
+|   `-- calculo_dft/
+|       |-- ...
+`-- scripts_uteis/</code></pre>
+<h2 id="estimativa-de-recursos">Estimativa de Recursos</h2>
+<ul>
+<li><p>Comece com jobs pequenos para calibrar o tempo de
+execução.</p></li>
+<li><p>Não solicite mais memória ou CPUs do que seu programa realmente
+usa.</p></li>
+<li><p>Monitore o uso real com <span
+style="color: codeblue"><code>sstat</code></span> ou <span
+style="color: codeblue"><code>sacct</code></span> após o job
+terminar.</p></li>
+</ul>
+<pre style="terminal"><code>$ sacct -j 9430 --format=JobID,Elapsed,CPUTime,MaxRSS,State</code></pre>
+<h2 id="cotas-e-limites">Cotas e Limites</h2>
+<p>Cada estudante pode utilizar até <strong>16 CPUs simultâneas</strong>
+no cluster. Casos excepcionais que demandem mais recursos podem ser
+avaliados pela equipe de TI mediante abertura de chamado em <a
+href="https://web-ilum.cnpem.br/chamado"
+class="uri">https://web-ilum.cnpem.br/chamado</a>.</p>
+<h2 id="etiqueta-no-uso-do-cluster">Etiqueta no Uso do Cluster</h2>
+<ol>
+<li><p><strong>Nunca</strong> execute jobs pesados no nó de
+login.</p></li>
+<li><p>Estime o tempo necessário e coloque <code>–time</code> realista
+(nem muito apertado, nem exagerado).</p></li>
+<li><p>Cancele jobs com <span
+style="color: codeblue"><code>scancel</code></span> se perceber que não
+precisará mais deles.</p></li>
+<li><p>Remova arquivos temporários e de saída desnecessários
+regularmente.</p></li>
+<li><p>Em caso de dúvidas técnicas ou problemas, abra um chamado em <a
+href="https://web-ilum.cnpem.br/chamado"
+class="uri">https://web-ilum.cnpem.br/chamado</a>.</p></li>
+</ol>
+<h1 id="guia-rápido-de-referência">Guia Rápido de Referência</h1>
+<h2 id="cheatsheet-de-linux">Cheatsheet de Linux</h2>
+<table>
+<caption>Referência rápida de comandos Linux.</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;"><strong>Comando</strong></th>
+<th style="text-align: left;"><strong>O que faz</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><span
+style="color: codeblue"><code>pwd</code></span></td>
+<td style="text-align: left;">Mostra o diretório atual</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span
+style="color: codeblue"><code>ls -lh</code></span></td>
+<td style="text-align: left;">Lista arquivos com detalhes</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span
+style="color: codeblue"><code>cd pasta/</code></span></td>
+<td style="text-align: left;">Entra na pasta</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span
+style="color: codeblue"><code>cd ..</code></span></td>
+<td style="text-align: left;">Volta um nível</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span
+style="color: codeblue"><code>mkdir nome</code></span></td>
+<td style="text-align: left;">Cria diretório</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span
+style="color: codeblue"><code>cp a b</code></span></td>
+<td style="text-align: left;">Copia arquivo a para b</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span
+style="color: codeblue"><code>mv a b</code></span></td>
+<td style="text-align: left;">Move/renomeia a para b</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span
+style="color: codeblue"><code>rm arquivo</code></span></td>
+<td style="text-align: left;">Remove arquivo</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span
+style="color: codeblue"><code>nano arquivo</code></span></td>
+<td style="text-align: left;">Edita arquivo</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span
+style="color: codeblue"><code>cat arquivo</code></span></td>
+<td style="text-align: left;">Exibe arquivo</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span
+style="color: codeblue"><code>less arquivo</code></span></td>
+<td style="text-align: left;">Exibe com paginação</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span
+style="color: codeblue"><code>grep "texto" arq</code></span></td>
+<td style="text-align: left;">Busca texto no arquivo</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span
+style="color: codeblue"><code>scp arq user@host:dir/</code></span></td>
+<td style="text-align: left;">Envia arquivo via SSH</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span
+style="color: codeblue"><code>Ctrl+C</code></span></td>
+<td style="text-align: left;">Cancela comando atual</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span
+style="color: codeblue"><code>Tab</code></span></td>
+<td style="text-align: left;">Autocompleta</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span
+style="color: codeblue"><code>man comando</code></span></td>
+<td style="text-align: left;">Manual do comando</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<h2 id="cheatsheet-do-slurm">Cheatsheet do Slurm</h2>
+<table>
+<caption>Referência rápida de comandos Slurm.</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;"><strong>Comando</strong></th>
+<th style="text-align: left;"><strong>O que faz</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><span
+style="color: codeblue"><code>sinfo</code></span></td>
+<td style="text-align: left;">Estado das filas e nós</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span
+style="color: codeblue"><code>squeue</code></span></td>
+<td style="text-align: left;">Jobs na fila</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span
+style="color: codeblue"><code>squeue -u usuario</code></span></td>
+<td style="text-align: left;">Seus jobs</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span
+style="color: codeblue"><code>sbatch script.sh</code></span></td>
+<td style="text-align: left;">Submeter job</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span
+style="color: codeblue"><code>scancel JOBID</code></span></td>
+<td style="text-align: left;">Cancelar job</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span
+style="color: codeblue"><code>scontrol show job JOBID</code></span></td>
+<td style="text-align: left;">Detalhes do job</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span
+style="color: codeblue"><code>sacct -j JOBID</code></span></td>
+<td style="text-align: left;">Histórico e uso de recursos</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span
+style="color: codeblue"><code>srun –pty bash</code></span></td>
+<td style="text-align: left;">Sessão interativa</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<h2 id="cheatsheet-de-módulos">Cheatsheet de Módulos</h2>
+<table>
+<caption>Referência rápida de Environment Modules.</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;"><strong>Comando</strong></th>
+<th style="text-align: left;"><strong>O que faz</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><span
+style="color: codeblue"><code>module avail</code></span></td>
+<td style="text-align: left;">Lista módulos disponíveis</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span
+style="color: codeblue"><code>module load nome/versao</code></span></td>
+<td style="text-align: left;">Carrega módulo</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span
+style="color: codeblue"><code>module list</code></span></td>
+<td style="text-align: left;">Módulos carregados</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span
+style="color: codeblue"><code>module unload nome</code></span></td>
+<td style="text-align: left;">Descarrega módulo</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span
+style="color: codeblue"><code>module purge</code></span></td>
+<td style="text-align: left;">Descarrega todos</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span
+style="color: codeblue"><code>module show nome</code></span></td>
+<td style="text-align: left;">Mostra o que o módulo altera</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<h2 id="cheatsheet-do-conda-python">Cheatsheet do Conda / Python</h2>
+<table>
+<caption>Referência rápida de Conda e Python.</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;"><strong>Comando</strong></th>
+<th style="text-align: left;"><strong>O que faz</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><span
+style="color: codeblue"><code>conda activate ilumpy</code></span></td>
+<td style="text-align: left;">Ativa o ambiente <code>ilumpy</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span
+style="color: codeblue"><code>conda deactivate</code></span></td>
+<td style="text-align: left;">Desativa o ambiente atual</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span
+style="color: codeblue"><code>conda env list</code></span></td>
+<td style="text-align: left;">Lista todos os ambientes</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span
+style="color: codeblue"><code>conda list</code></span></td>
+<td style="text-align: left;">Lista pacotes do ambiente ativo</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span
+style="color: codeblue"><code>pip install pacote</code></span></td>
+<td style="text-align: left;">Instala pacote no ambiente ativo</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span
+style="color: codeblue"><code>pip list</code></span></td>
+<td style="text-align: left;">Lista pacotes instalados via pip</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span
+style="color: codeblue"><code>pip show pacote</code></span></td>
+<td style="text-align: left;">Informações sobre um pacote</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span
+style="color: codeblue"><code>python -u script.py</code></span></td>
+<td style="text-align: left;">Executa Python sem buffer de saída</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span
+style="color: codeblue"><code>python -u script.py &gt; out</code></span></td>
+<td style="text-align: left;">Redireciona saída para arquivo</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<h1 id="suporte-e-contato">Suporte e Contato</h1>
+<div class="tcolorbox">
+<dl>
+<dt>Sistema de chamados:</dt>
+<dd>
+<p><a href="https://web-ilum.cnpem.br/chamado"
+class="uri">https://web-ilum.cnpem.br/chamado</a><br />
+Use para relatar problemas técnicos, solicitar instalação de software,
+pedir aumento de cota ou qualquer dificuldade com o cluster.</p>
+</dd>
+<dt>Reset de senha:</dt>
+<dd>
+<p><a href="http://172.20.10.15"
+class="uri">http://172.20.10.15</a><br />
+Acesse dentro da rede Ilum ou via VPN para redefinir sua senha.</p>
+</dd>
+<dt>Endereço do cluster:</dt>
+<dd>
+<p><code>heisenberg.cnpem.br</code></p>
+</dd>
+</dl>
+</div>
+<p>Ao abrir um chamado, inclua sempre:</p>
+<ul>
+<li><p>Seu nome de usuário;</p></li>
+<li><p>O JOBID do job com problema (se aplicável);</p></li>
+<li><p>A mensagem de erro completa;</p></li>
+<li><p>O conteúdo do arquivo <code>.err</code> gerado pelo job.</p></li>
+</ul>
+<h1 id="glossário">Glossário</h1>
+<div class="description">
+<p>Conjunto de computadores interconectados que trabalham como uma única
+máquina.</p>
+<p>Processador central; realiza cálculos de propósito geral.</p>
+<p>Espaço isolado com versão própria do Python e bibliotecas, sem
+interferir no sistema ou em outros projetos.</p>
+<p>Gerenciador de pacotes e ambientes virtuais; base do Miniconda e
+Anaconda.</p>
+<p>Trava do CPython que impede execução simultânea de múltiplos
+<em>threads</em> Python; torna scripts comuns essencialmente
+seriais.</p>
+<p>Processador gráfico; realiza cálculos paralelos massivos (ML,
+simulações GPU).</p>
+<p>Computação de alto desempenho.</p>
+<p>Distribuição minimalista do conda; permite instalar o gerenciador de
+pacotes Python sem uma distribuição completa como o Anaconda.</p>
+<p>Tarefa submetida ao Slurm para execução nos nós de trabalho.</p>
+<p>Padrão para comunicação entre processos em múltiplos nós.</p>
+<p>Mecanismo para carregar/descarregar softwares e suas dependências
+dinamicamente.</p>
+<p>Cada computador individual dentro do cluster.</p>
+<p>Ponto de acesso ao cluster; não deve ser usado para cálculos
+pesados.</p>
+<p>API para paralelismo de memória compartilhada (multithreading).</p>
+<p>Fila de jobs com regras específicas de acesso e recursos.</p>
+<p>Política que limita o uso de recursos por usuário ou grupo.</p>
+<p>Protocolo criptografado para acesso remoto a servidores.</p>
+<p>Sistema de gerenciamento de recursos e filas de jobs usado no
+Heisenberg.</p>
+</div>
+<h1 id="checklist-do-primeiro-uso">Checklist do Primeiro Uso</h1>
+<ol>
+<li><p>Obtive minha conta na Ilum/CNPEM.</p></li>
+<li><p>Abri o PowerShell (Windows) ou o terminal (Linux/macOS).</p></li>
+<li><p>Me conectei ao cluster:
+<code>ssh usuario@heisenberg.cnpem.br</code>.</p></li>
+<li><p>Explorei minha pasta home com <span
+style="color: codeblue"><code>ls</code></span> e <span
+style="color: codeblue"><code>pwd</code></span>.</p></li>
+<li><p>Listei os módulos com <span
+style="color: codeblue"><code>module avail</code></span>.</p></li>
+<li><p>Instalei o Miniconda na minha home.</p></li>
+<li><p>Criei o ambiente <code>ilumpy</code> com Python 3.11.</p></li>
+<li><p>Instalei as bibliotecas científicas com <span
+style="color: codeblue"><code>pip install</code></span>.</p></li>
+<li><p>Verifiquei as filas com <span
+style="color: codeblue"><code>sinfo</code></span>.</p></li>
+<li><p>Escrevi e submeti meu primeiro job com <span
+style="color: codeblue"><code>sbatch</code></span>.</p></li>
+<li><p>Acompanhei o job com <span
+style="color: codeblue"><code>squeue</code></span> e <span
+style="color: codeblue"><code>tail -f saida.out</code></span>.</p></li>
+</ol>
+</body>
+</html>
