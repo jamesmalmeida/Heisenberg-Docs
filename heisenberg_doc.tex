@@ -152,9 +152,7 @@
   \centering
   \vspace*{1.5cm}
 
-  % >>> IMAGEM 1: Insira aqui o logo do CNPEM/Ilum <<<
-  % \includegraphics[width=0.35\textwidth]{logo_cnpem.png}\\[1.5cm]
-  \textbf{\Large [Inserir logo do CNPEM / Ilum aqui]}\\[1.5cm]
+  \includegraphics[width=0.35\textwidth]{images/ilum-logo.png}\\[1.5cm]
 
   {\Huge\bfseries\color{heisenbergblue} Cluster Heisenberg}\\[0.5cm]
   {\Large\color{accentblue} Guia do Usuário}\\[0.3cm]
@@ -197,15 +195,9 @@ placas de vídeo (GPUs) de forma coordenada.
 
 \subsection{Arquitetura Geral}
 
-% >>> IMAGEM 2: Diagrama de arquitetura do cluster (nó de login + nós de trabalho) <<<
-% Sugestão: diagrama mostrando o usuário $\\rightarrow$ nó de login (heisenberg.cnpem.br) →
-%           rede interna $\\rightarrow$ nós work0..work8
 \begin{figure}[H]
   \centering
-  \fbox{\parbox{0.85\textwidth}{\centering\vspace{2cm}
-    \textbf{[Inserir diagrama: Usuário $\rightarrow$ Nó de Login $\rightarrow$
-    Nós de Trabalho work0--work8]}
-    \vspace{2cm}}}
+  \includegraphics[width=0.85\textwidth]{images/Diagrama-Heisenberg.png}
   \caption{Arquitetura simplificada do Cluster Heisenberg.}
 \end{figure}
 
@@ -233,15 +225,15 @@ A tabela abaixo resume o hardware de cada nó disponível no cluster.
   \textbf{Nó} & \textbf{CPUs} & \textbf{RAM (GB)} & \textbf{Sockets} & \textbf{GPU} & \textbf{Filas} \\
   \midrule
   \endhead
-  work0 & 128 & 503 & 2 × 64 cores & --- & cpu \\
-  work1 & 128 & 503 & 2 × 64 cores & 3 × NVIDIA T4 & cpu, gpu \\
-  work2 &  64 & 251 & 2 × 32 cores & --- & cpu \\
-  work3 &  64 & 251 & 2 × 32 cores & --- & cpu \\
-  work4 &  16 & 125 & 1 × 16 cores & 1 × NVIDIA RTX 4090 & gpu \\
-  work5 &  16 & 125 & 1 × 8 cores  & 2 × NVIDIA RTX 4090 & gpu \\
-  work6 &  16 & 125 & 1 × 8 cores  & 2 × NVIDIA RTX 4090 & gpu \\
-  work7 &  32 & 188 & 1 × 16 cores & --- & cpu \\
-  work8 &  48 & 157 & 2 × 12 cores & 1 × NVIDIA RTX 3060 & gpu \\
+  work0 & 128 & 512 & 2 × 64 cores & --- & cpu \\
+  work1 & 128 & 512 & 2 × 64 cores & 3 × NVIDIA T4 & cpu, gpu \\
+  work2 &  64 & 256 & 2 × 32 cores & --- & cpu \\
+  work3 &  64 & 256 & 2 × 32 cores & --- & cpu \\
+  work4 &  8 & 128 & 1 × 16 cores & 1 × NVIDIA RTX 4090 & gpu \\
+  work5 &  8 & 128 & 1 × 8 cores  & 2 × NVIDIA RTX 4090 & gpu \\
+  work6 &  8 & 128 & 1 × 8 cores  & 2 × NVIDIA RTX 4090 & gpu \\
+  work7 &  16 & 192 & 1 × 16 cores & --- & cpu \\
+  work8 &  24 & 160 & 2 × 12 cores & 1 × NVIDIA RTX 3060 & gpu \\
   \bottomrule
   \caption{Hardware dos nós de trabalho do Cluster Heisenberg.}
 \end{longtable}
@@ -277,7 +269,7 @@ Abra o terminal e execute:
 $ ssh seu_usuario@heisenberg.cnpem.br
 \end{lstlisting}
 
-Substitua \texttt{seu\_usuario} pelo seu login institucional.
+Substitua \texttt{seu\_usuario} pelo seu login institucional. Mas a senha não é a mesma, é a que você recebeu por email.
 
 \subsubsection{Windows}
 
@@ -289,13 +281,9 @@ e pressione \texttt{Enter}) e use o mesmo comando:
 PS C:\Users\voce> ssh seu_usuario@heisenberg.cnpem.br
 \end{lstlisting}
 
-% >>> IMAGEM 3: Screenshot do PowerShell conectando ao cluster via SSH <<<
 \begin{figure}[H]
   \centering
-  \fbox{\parbox{0.85\textwidth}{\centering\vspace{2.5cm}
-    \textbf{[Inserir screenshot: PowerShell executando o comando ssh
-    e exibindo o prompt do cluster após o login]}
-    \vspace{2.5cm}}}
+  \includegraphics[width=0.85\textwidth]{images/Imagem-Heisenberg-Logada.png}
   \caption{Conexão SSH pelo PowerShell no Windows.}
 \end{figure}
 
@@ -333,16 +321,6 @@ O terminal (também chamado de \textit{shell} ou \textit{linha de comando}) é u
 interface de texto onde você digita comandos para o computador executar. No
 cluster, \textbf{toda interação é feita pelo terminal} --- não há área de
 trabalho gráfica.
-
-% >>> IMAGEM 4: Screenshot do terminal logo após o login no Heisenberg <<<
-\begin{figure}[H]
-  \centering
-  \fbox{\parbox{0.85\textwidth}{\centering\vspace{2.5cm}
-    \textbf{[Inserir screenshot: terminal após login, mostrando o prompt
-    ``usuario@heisenberg:\textasciitilde\$'']}
-    \vspace{2.5cm}}}
-  \caption{Prompt do terminal após o login no Heisenberg.}
-\end{figure}
 
 Após o login, você verá algo como:
 
@@ -414,13 +392,9 @@ $ nano meu_arquivo.txt
 
 O \cmd{nano} é um editor de texto simples que funciona direto no terminal.
 
-% >>> IMAGEM 5: Screenshot do editor nano com um arquivo aberto <<<
 \begin{figure}[H]
   \centering
-  \fbox{\parbox{0.85\textwidth}{\centering\vspace{2.5cm}
-    \textbf{[Inserir screenshot: editor nano com arquivo aberto e barra
-    de atalhos na parte inferior]}
-    \vspace{2.5cm}}}
+  \includegraphics[width=0.85\textwidth]{images/nano.png}
   \caption{Editor de texto \texttt{nano} no terminal.}
 \end{figure}
 
@@ -464,19 +438,18 @@ $ rm -r pasta/                      # remover pasta e tudo dentro
 
 Os comandos abaixo são digitados no \textbf{terminal do seu próprio computador}
 (PowerShell no Windows ou terminal no Linux/macOS), \textbf{não} no cluster.
-Substitua \texttt{james} pelo seu usuário.
 
 \subsubsection{Enviar arquivos para o cluster}
 
 \begin{lstlisting}[style=terminal]
 # Enviar um arquivo para a home do cluster
-$ scp foo.bar james@heisenberg.cnpem.br:~/
+$ scp foo.bar seu_usuario@heisenberg.cnpem.br:~/
 
 # Enviar um arquivo para uma subpasta especifica
-$ scp foo.bar james@heisenberg.cnpem.br:~/dados/
+$ scp foo.bar seu_usuario@heisenberg.cnpem.br:~/dados/
 
 # Enviar uma pasta inteira (-r de recursivo)
-$ scp -r minha_pasta/ james@heisenberg.cnpem.br:~/
+$ scp -r minha_pasta/ seu_usuario@heisenberg.cnpem.br:~/
 \end{lstlisting}
 
 \subsubsection{Baixar arquivos do cluster}
@@ -503,13 +476,9 @@ Para quem prefere uma interface gráfica de arrastar e soltar, o
 \textbf{WinSCP} é uma alternativa prática no Windows. Ele permite navegar
 pelas pastas do cluster e transferir arquivos sem usar o terminal.
 
-% >>> IMAGEM: Screenshot do WinSCP conectado ao Heisenberg <<<
 \begin{figure}[H]
   \centering
-  \fbox{\parbox{0.85\textwidth}{\centering\vspace{2cm}
-    \textbf{[Inserir screenshot: WinSCP com conexão ao Heisenberg aberta,
-    mostrando arquivos locais à esquerda e arquivos do cluster à direita]}
-    \vspace{2cm}}}
+  \includegraphics[width=0.85\textwidth]{images/WinSCP.png}
   \caption{WinSCP: transferência de arquivos com interface gráfica.}
 \end{figure}
 
@@ -563,49 +532,6 @@ $ sort numeros.txt | uniq    # ordena e remove duplicatas
   \item \cmd{man ls} --- exibe o manual de qualquer comando (\texttt{q} para sair).
 \end{itemize}
 \end{dica}
-
-\subsection{Executar Programas em Segundo Plano}
-
-Normalmente, quando você executa um comando no terminal, ele ocupa o prompt
-até terminar. Para liberar o terminal enquanto o programa ainda roda, use o
-\textbf{\&} ao final do comando:
-
-\begin{lstlisting}[style=terminal]
-$ programa &
-[1] 18423
-\end{lstlisting}
-
-O número entre colchetes é o número do job e o seguinte é o PID do processo.
-O programa continua rodando em segundo plano enquanto você usa o terminal
-normalmente.
-
-O problema do \textbf{\&} sozinho é que, se você fechar a sessão SSH, o
-programa é encerrado junto. Para evitar isso, use \cmd{nohup}
-(\textit{no hang up}), que desconecta o processo da sessão:
-
-\begin{lstlisting}[style=terminal]
-$ nohup programa > saida.out 2> erros.err &
-[1] 18424
-\end{lstlisting}
-
-O \texttt{> saida.out} redireciona a saída padrão e \texttt{2> erros.err}
-redireciona os erros, pois com \cmd{nohup} o terminal não está mais disponível
-para exibir nada. O programa continuará rodando mesmo após você fechar o SSH.
-
-Para gerenciar processos em segundo plano:
-
-\begin{lstlisting}[style=terminal]
-$ jobs          # lista os processos em background desta sessao
-$ fg 1          # traz o job [1] de volta para o foreground
-$ kill 18424    # encerra o processo pelo PID
-\end{lstlisting}
-
-\begin{atencao}
-  O \cmd{nohup} serve para tarefas leves e rápidas, como scripts de pré ou
-  pós-processamento. \textbf{Não rode simulações pesadas diretamente no nó
-  de login}, independentemente de usar \cmd{nohup} ou não. Para isso, utilize
-  sempre o Slurm.
-\end{atencao}
 
 % =====================================================================
 \section{Environment Modules}
@@ -788,7 +714,7 @@ em Python científico com um único comando:
 \begin{lstlisting}[style=terminal]
 $ pip install numpy scipy matplotlib pandas seaborn scikit-learn \
               jupyter ipython sympy tqdm h5py pyarrow statsmodels \
-              networkx pillow MDAnalysis ase
+              networkx pillow
 \end{lstlisting}
 
 A tabela abaixo descreve o propósito de cada biblioteca:
@@ -804,7 +730,6 @@ A tabela abaixo descreve o propósito de cada biblioteca:
   \texttt{pandas} & Manipulação de dados tabulares (DataFrames) \\
   \texttt{seaborn} & Gráficos estatísticos de alta qualidade \\
   \texttt{scikit-learn} & Aprendizado de máquina clássico \\
-  \texttt{jupyter} & Notebooks interativos (Jupyter Notebook / Lab) \\
   \texttt{ipython} & Console Python interativo aprimorado \\
   \texttt{sympy} & Matemática simbólica \\
   \texttt{tqdm} & Barras de progresso em loops \\
@@ -813,8 +738,6 @@ A tabela abaixo descreve o propósito de cada biblioteca:
   \texttt{statsmodels} & Modelos estatísticos e econométricos \\
   \texttt{networkx} & Análise de grafos e redes \\
   \texttt{pillow} & Processamento de imagens \\
-  \texttt{MDAnalysis} & Análise de trajetórias de dinâmica molecular \\
-  \texttt{ase} & Atomic Simulation Environment (materiais e moléculas) \\
   \bottomrule
   \caption{Bibliotecas Python instaladas no ambiente \texttt{ilumpy}.}
 \end{longtable}
@@ -1123,12 +1046,13 @@ que as mensagens apareçam no arquivo de saída em tempo real (sem atraso).
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
-#SBATCH --mem=8G
+#SBATCH --mem=1G
 #SBATCH --time=04:00:00
 #SBATCH --output=python_%j.out
 #SBATCH --error=python_%j.err
 
 # Ativa o ambiente Python com as bibliotecas instaladas
+source ~/.bashrc
 conda activate ilumpy
 
 echo "Inicio: $(date)"
