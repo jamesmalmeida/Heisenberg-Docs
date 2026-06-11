@@ -874,8 +874,8 @@ Um script de job é um arquivo de texto com extensão \texttt{.sh} contendo:
   \endhead
   \texttt{--job-name=nome} & Nome do job (aparece no \cmd{squeue}) \\
   \texttt{--partition=cpu} & Fila a usar (\texttt{cpu} ou \texttt{gpu}) \\
-  \texttt{--nodes=1} & Número de nós \\
-  \texttt{--ntasks=1} & Número de tarefas MPI \\
+  \texttt{--ntasks=1} & Número de tarefas (processos MPI) \\
+  \texttt{--ntasks-per-node=1} & Tarefas por nó \\
   \texttt{--cpus-per-task=8} & CPUs por tarefa (threads OpenMP) \\
   \texttt{--mem=16G} & Memória total por nó \\
   \texttt{--time=12:00:00} & Tempo máximo (HH:MM:SS) \\
@@ -896,7 +896,6 @@ Um script de job é um arquivo de texto com extensão \texttt{.sh} contendo:
 #!/bin/bash
 #SBATCH --job-name=meu_primeiro_job
 #SBATCH --partition=cpu
-#SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=8G
@@ -922,8 +921,8 @@ do job (JOBID), evitando sobrescrever saídas de execuções anteriores.
 #!/bin/bash
 #SBATCH --job-name=simulacao_mpi
 #SBATCH --partition=cpu
-#SBATCH --nodes=2
 #SBATCH --ntasks=16
+#SBATCH --ntasks-per-node=16
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=64G
 #SBATCH --time=24:00:00
@@ -942,7 +941,6 @@ srun ./programa_mpi input.dat
 #!/bin/bash
 #SBATCH --job-name=treinamento_gpu
 #SBATCH --partition=gpu
-#SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=8
 #SBATCH --gres=gpu:1
@@ -965,7 +963,6 @@ python treinar_modelo.py --epochs 100
 #!/bin/bash
 #SBATCH --job-name=gromacs_md
 #SBATCH --partition=cpu
-#SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=32
 #SBATCH --mem=64G
@@ -994,8 +991,8 @@ gmx mdrun -v -deffnm producao -ntmpi 1 \
 #!/bin/bash
 #SBATCH --job-name=vasp_dft
 #SBATCH --partition=cpu
-#SBATCH --nodes=1
 #SBATCH --ntasks=32
+#SBATCH --ntasks-per-node=32
 #SBATCH --mem=128G
 #SBATCH --time=72:00:00
 #SBATCH --output=vasp_%j.out
@@ -1043,7 +1040,6 @@ que as mensagens apareçam no arquivo de saída em tempo real (sem atraso).
 #!/bin/bash
 #SBATCH --job-name=python_serial
 #SBATCH --partition=cpu
-#SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
 #SBATCH --mem=1G
@@ -1081,7 +1077,6 @@ para aproveitar mais de um núcleo --- por exemplo com \texttt{multiprocessing},
 #!/bin/bash
 #SBATCH --job-name=python_paralelo
 #SBATCH --partition=cpu
-#SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=16
 #SBATCH --mem=32G
@@ -1151,7 +1146,7 @@ Para testar comandos, depurar scripts ou usar programas interativos,
 solicite uma sessão interativa em vez de submeter um job:
 
 \begin{lstlisting}[style=terminal]
-$ srun --partition=cpu --nodes=1 --ntasks=4 --mem=8G \
+$ srun --partition=cpu --ntasks=4 --mem=8G \
        --time=01:00:00 --pty bash
 
 # Com GPU:
