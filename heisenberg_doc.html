@@ -161,6 +161,7 @@
       <li><a href="#slurm-monitorar">Acompanhando e diagnosticando</a></li>
       <li><a href="#slurm-vars">Variáveis de ambiente</a></li>
       <li><a href="#slurm-memoria">Memória: o erro mais comum</a></li>
+      <li><a href="#slurm-prioridade">Prioridade: quem roda primeiro</a></li>
     </ol>
   </li>
   <li><a href="#politicas">Regras de uso e monitoramento automático</a>
@@ -213,7 +214,7 @@ aparece igual em qualquer nó</b> — você não precisa copiar nada entre máqu
 <tr><th>Nó</th><th>CPUs alocáveis<br><small>(o que você pede no Slurm)</small></th>
     <th>Cores físicos</th><th>Memória<br><small>disponível ao Slurm</small></th>
     <th>GPUs</th><th>Filas</th></tr>
-<tr><td>work0 <i>(login)</i></td><td>128</td><td>2 × 64</td><td>503 GB</td><td>—</td><td>cpu</td></tr>
+<tr><td>work0 <i>(login)</i></td><td>112</td><td>2 × 64</td><td>439 GB</td><td>—</td><td>cpu</td></tr>
 <tr><td>work1</td><td>128</td><td>2 × 64</td><td>503 GB</td><td>3 × Tesla T4 (16 GB)</td><td>cpu, gpu</td></tr>
 <tr><td>work2</td><td>64</td><td>2 × 32</td><td>251 GB</td><td>—</td><td>cpu</td></tr>
 <tr><td>work3</td><td>64</td><td>2 × 32</td><td>251 GB</td><td>—</td><td>cpu</td></tr>
@@ -222,7 +223,7 @@ aparece igual em qualquer nó</b> — você não precisa copiar nada entre máqu
 <tr><td>work6</td><td>16</td><td>1 × 8 <small>(2 threads/core)</small></td><td>61 GB</td><td>2 × RTX 4090 (24 GB)</td><td>gpu</td></tr>
 <tr><td>work7</td><td>32</td><td>1 × 16 <small>(2 threads/core)</small></td><td>187 GB</td><td>—</td><td>cpu</td></tr>
 <tr><td>work8</td><td>48</td><td>2 × 12 <small>(2 threads/core)</small></td><td>156 GB</td><td>1 × RTX 3060 (12 GB)</td><td>cpu, gpu</td></tr>
-<tr><td>work9</td><td>128</td><td>1 × 64 <small>(2 threads/core)</small></td><td>97 GB</td><td>—</td><td>cpu</td></tr>
+<tr><td>work9</td><td colspan="5"><i>Dedicado à IlumA — não recebe jobs dos usuários</i></td></tr>
 </table>
 </div>
 <div class="info">As duas colunas de CPU dizem coisas diferentes e as duas
@@ -231,11 +232,11 @@ importam. <b>CPUs alocáveis</b> é o número que o Slurm entende quando você p
 hardware real: nos nós com <i>2 threads por core</i>, pedir 16 CPUs no work5
 entrega 8 cores de verdade. Para cálculo numérico pesado (VASP, GROMACS), o
 desempenho acompanha os cores físicos, não os threads.</div>
-<div class="aviso">O <code>work9</code> tem muitas CPUs mas pouca memória
-disponível ao Slurm (97 GB para 128 CPUs). A diferença para a memória física da
-máquina é reserva para os serviços internos do cluster. Se o seu cálculo usa
-muita RAM por processo, peça memória explicitamente (seção
-<a href="#slurm-memoria">7.9</a>) para o Slurm não colocá-lo lá.</div>
+<div class="aviso">No <code>work0</code>, 16 dos 128 cores e 64 GB de memória
+ficam reservados para os serviços do cluster (login, armazenamento, backup); por
+isso o Slurm enxerga 112 CPUs e 439 GB. O <code>work9</code> é dedicado à IlumA,
+o assistente de IA da Ilum, e aparece como <code>down</code> no
+<code>sinfo</code> de propósito.</div>
 <div class="dica">Esta tabela é o estado planejado do cluster. Para saber o que
 está <b>disponível agora</b> — inclusive se algum nó está em manutenção —
 use <code>sinfo</code>. Nenhum manual acompanha o estado em tempo real.</div>
@@ -243,24 +244,25 @@ use <code>sinfo</code>. Nenhum manual acompanha o estado em tempo real.</div>
 <h3 id="filas">1.3 As filas (partições)</h3>
 <table>
 <tr><th>Fila</th><th>Nós</th><th>CPUs totais</th><th>Para quê</th></tr>
-<tr><td><code>cpu</code> <i>(padrão)</i></td><td>work0–work3, work7–work9</td><td>592</td>
+<tr><td><code>cpu</code> <i>(padrão)</i></td><td>work0–work3, work7, work8</td><td>448</td>
 <td>Cálculos de CPU: VASP, Quantum ESPRESSO, LAMMPS, scripts Python, etc.</td></tr>
 <tr><td><code>gpu</code></td><td>work1, work4–work6, work8</td><td>224</td>
 <td>Cálculos que usam GPU. Exige pedir a placa com <code>--gres=gpu:N</code>.</td></tr>
 </table>
 <p>Se você não indicar fila, seu job entra na <code>cpu</code>. Não há limite de
 tempo imposto pela fila, mas <b>declare sempre um tempo estimado</b> com
-<code>--time</code> — jobs com tempo declarado são mais fáceis de encaixar e o
-escalonador os trata melhor (seção <a href="#slurm-script">7.3</a>).</p>
+<code>--time</code>: jobs mais curtos ganham prioridade, e jobs sem tempo
+declarado (ou com mais de 15 dias) perdem (seção <a href="#slurm-prioridade">7.10</a>).</p>
 
 <h3 id="limites">1.4 Limites por usuário (QOS)</h3>
 <p>Cada usuário tem um teto de CPUs simultâneas, definido pela sua QOS. Os tetos
 mais comuns são <b>8</b> e <b>16</b> CPUs; há perfis maiores para projetos
-específicos. Para saber o seu:</p>
+específicos. Todas as QOS limitam também o uso a <b>2 GPUs simultâneas</b> por
+usuário. Para saber o seu:</p>
 <pre><code>sacctmgr show assoc where user=$USER format=User,QOS%20</code></pre>
 <p>Se seus jobs ficarem pendentes com o motivo <code>QOSMaxCpuPerUserLimit</code>
-no <code>squeue</code>, você atingiu seu teto — eles entram conforme os
-anteriores terminam. Precisando de mais para um projeto específico, abra um
+(CPUs) ou <code>QOSMaxGRESPerUser</code> (GPUs) no <code>squeue</code>, você
+atingiu seu teto — eles entram conforme os anteriores terminam. Precisando de mais para um projeto específico, abra um
 chamado (seção <a href="#suporte">15</a>).</p>
 
 <h2 id="acesso">2. Acessando o cluster</h2>
@@ -675,9 +677,12 @@ submeteu.</p>
 mais legível; use a que preferir, mas não misture as duas no mesmo script.</p>
 <p>As duas diretivas que <b>todo</b> job deveria ter, além de fila e tarefas:</p>
 <ul>
-<li><code>--time</code>: sem ela o job fica sem limite, o que atrapalha o
-escalonador e impede o <i>backfill</i> (encaixar jobs curtos nos buracos da
-fila). Estime com folga — o job termina quando acabar, não espera o prazo.</li>
+<li><code>--time</code>: sem ela o job fica sem limite, perde prioridade na fila
+e não pode ser encaixado pelo <i>backfill</i> (encaixar jobs curtos nos buracos
+da fila). Quanto mais curto o tempo declarado, mais prioridade o job ganha
+(seção <a href="#slurm-prioridade">7.10</a>). Estime com folga — o job termina
+quando acabar, não espera o prazo; mas, se passar do tempo pedido, é
+encerrado.</li>
 <li><code>--mem</code>: o padrão é <b>1 GB por CPU alocada</b>, pouco para a
 maioria dos cálculos. Se o job passar do que pediu, é morto por falta de memória
 (seção <a href="#slurm-memoria">7.9</a>).</li>
@@ -842,8 +847,9 @@ liberados. É a forma correta de "entrar num nó" — nunca por <code>ssh</code>
 <pre><code># por que meu job esta pendente?
 squeue --me                 # veja a coluna NODELIST(REASON)
 #   Resources             = aguardando maquina livre (normal)
-#   Priority              = ha jobs na frente
+#   Priority              = ha jobs na frente (secao 7.10)
 #   QOSMaxCpuPerUserLimit = voce atingiu seu teto de CPUs (secao 1.4)
+#   QOSMaxGRESPerUser     = voce atingiu seu teto de GPUs (secao 1.4)
 
 # acompanhar a saida em tempo real
 tail -f slurm-JOBID.out
@@ -884,6 +890,40 @@ são contadas repetidas.</p>
 <div class="dica">Os relatórios automáticos da IlumA (seção
 <a href="#regra-iluma">8.3</a>) já fazem essa conta e sugerem o
 <code>--mem</code> adequado para a próxima submissão.</div>
+
+<h3 id="slurm-prioridade">7.10 Prioridade: quem roda primeiro</h3>
+<p>Quando há mais pedidos do que máquinas livres, o Slurm ordena os jobs
+pendentes por uma <b>prioridade</b>, calculada a partir de três coisas:</p>
+<ul>
+<li><b>Seu uso recente (fairshare)</b> — o fator mais forte, de 0 a 10.000
+pontos. Todos os usuários têm a mesma fatia do cluster; quem usou muito nos
+últimos dias cai na fila, quem usou pouco sobe. O uso "esquece" com meia-vida de
+7 dias: o que você rodou há uma semana pesa metade. GPU conta como 32 CPUs, e
+memória conta 1 CPU a cada 4 GB.</li>
+<li><b>O tempo declarado no <code>--time</code></b> — bônus ou penalidade fixos,
+dados na submissão:
+<table>
+<tr><th><code>--time</code> pedido</th><th>Ajuste</th></tr>
+<tr><td>até 2 horas</td><td>+1000</td></tr>
+<tr><td>até 1 dia</td><td>+750</td></tr>
+<tr><td>até 3 dias</td><td>+500</td></tr>
+<tr><td>até 7 dias</td><td>+250</td></tr>
+<tr><td>de 7 a 15 dias</td><td>0</td></tr>
+<tr><td>mais de 15 dias, ou sem <code>--time</code></td><td>−1000</td></tr>
+</table></li>
+<li><b>Tempo de espera</b> — o job ganha até 1000 pontos conforme espera, ao
+longo de 7 dias, para que ninguém fique parado para sempre.</li>
+</ul>
+<p>Para ver a prioridade dos seus jobs pendentes e o seu fairshare:</p>
+<pre><code>sprio -u $USER        # prioridade de cada job, fator por fator
+sshare -u $USER       # coluna FairShare: perto de 1 = usou pouco, perto de 0 = usou muito</code></pre>
+<div class="dica">Declarar o tempo certo ajuda duas vezes: dá o bônus da tabela e
+permite o <i>backfill</i> — o Slurm encaixa jobs curtos nas brechas enquanto
+reserva máquina para um job grande, e para isso precisa saber quanto tempo cada
+job vai durar.</div>
+<div class="info">A prioridade só ordena a fila: ela não muda o seu teto de
+CPUs e GPUs (seção <a href="#limites">1.4</a>) nem interrompe jobs que já estão
+rodando.</div>
 
 <h2 id="politicas">8. Regras de uso e monitoramento automático</h2>
 <p>O cluster verifica sozinho, a cada 10 minutos, se os recursos estão sendo
@@ -1013,7 +1053,8 @@ apptainer exec --nv ~/imagens/pytorch.sif python -u treino.py</code></pre>
 <h2 id="storage">10. Armazenamento e boas práticas</h2>
 <table>
 <tr><th>Caminho</th><th>O que é</th><th>Uso</th></tr>
-<tr><td><code>/home/usuario</code></td><td>Sua home (ZFS, 83 TB no total), visível em todos os nós</td><td>Código, entradas, resultados</td></tr>
+<tr><td><code>/home/usuario</code></td><td>Sua home, visível em todos os nós (storage DDN, 143 TB no total), com backup diário</td><td>Código, entradas, resultados</td></tr>
+<tr><td><code>/home/public</code></td><td>Pasta compartilhada de projetos, visível em todos os nós. Desde 11/2026 fica fisicamente em <code>/data1/public</code>; os dois caminhos levam ao mesmo lugar</td><td>Dados e resultados usados por mais de uma pessoa</td></tr>
 <tr><td><code>/opt</code></td><td>Softwares instalados (somente leitura para usuários)</td><td>—</td></tr>
 <tr><td><code>/tmp</code> (de cada nó)</td><td>Disco local do nó, não compartilhado</td><td>Arquivos temporários durante o job — apague ao final</td></tr>
 </table>
@@ -1033,9 +1074,14 @@ apptainer exec --nv ~/imagens/pytorch.sif python -u treino.py</code></pre>
 (o job é morto ao estourar), nem exagerado (atrapalha o backfill).</li>
 <li>Cancele com <code>scancel</code> os jobs que você percebeu que não precisa
 mais. Isso libera a fila imediatamente.</li>
-<li>A home <b>não é infinita</b> nem tem backup automático de tudo: mantenha
-cópia externa do que é insubstituível e apague o que já cumpriu seu papel
-(WAVECAR antigo, checkpoint de treino concluído, cache de imagens).</li>
+<li>A home e a <code>/home/public</code> têm <b>backup diário</b> num servidor
+separado. Arquivo apagado ou estragado por engano pode ser recuperado por
+chamado (seção <a href="#suporte">15</a>) — avise o quanto antes: as cópias
+diárias ficam por 15 dias; depois disso restam as semanais (8 semanas), as
+mensais (12 meses) e as anuais. Mesmo assim, mantenha cópia externa do que é
+insubstituível.</li>
+<li>A home <b>não é infinita</b>: apague o que já cumpriu seu papel (WAVECAR
+antigo, checkpoint de treino concluído, cache de imagens).</li>
 <li>Milhões de arquivos pequenos degradam o sistema para todos — prefira agregar
 (<code>tar</code>, HDF5, zarr).</li>
 <li>Veja seu consumo com <code>du -sh ~/*</code> (é uma operação pesada; rode com
@@ -1046,9 +1092,18 @@ moderação).</li>
 
 <p><b>Meu job está pendente há muito tempo. É normal?</b><br>
 Veja o motivo em <code>squeue --me</code>. <code>Resources</code> ou
-<code>Priority</code>: a fila está cheia, aguarde. <code>QOSMaxCpuPerUserLimit</code>:
-você atingiu seu teto de CPUs; ele entra quando seus outros jobs terminarem.
-Jobs com <code>--time</code> curto e declarado entram mais fácil (backfill).</p>
+<code>Priority</code>: a fila está cheia, aguarde — <code>sprio -u $USER</code>
+mostra a sua prioridade (seção <a href="#slurm-prioridade">7.10</a>).
+<code>QOSMaxCpuPerUserLimit</code> ou <code>QOSMaxGRESPerUser</code>: você
+atingiu seu teto de CPUs ou de GPUs; o job entra quando seus outros terminarem.
+Jobs com <code>--time</code> curto e declarado ganham prioridade e entram mais
+fácil (backfill).</p>
+
+<p><b>Por que o job de outra pessoa passou na frente do meu?</b><br>
+A ordem não é de chegada: quem usou menos o cluster nos últimos dias e quem
+declarou um <code>--time</code> menor tem prioridade maior
+(seção <a href="#slurm-prioridade">7.10</a>). Um job menor também pode ser
+encaixado numa brecha (backfill) sem atrasar o início previsto do seu.</p>
 
 <p><b>Meu job morreu com OUT_OF_MEMORY.</b><br>
 Pediu menos memória do que usou. <code>sacct -j JOBID -o JobID,State,MaxRSS</code>
@@ -1126,6 +1181,8 @@ em <code>/opt/apps</code>.</p>
 <tr><td><code>sacct -j JOBID</code></td><td>Histórico e uso de recursos</td></tr>
 <tr><td><code>srun ... --pty bash</code></td><td>Sessão interativa</td></tr>
 <tr><td><code>sacctmgr show assoc where user=$USER</code></td><td>Seu limite de CPUs</td></tr>
+<tr><td><code>sprio -u $USER</code></td><td>Prioridade dos seus jobs pendentes</td></tr>
+<tr><td><code>sshare -u $USER</code></td><td>Seu fairshare (uso recente)</td></tr>
 </table>
 
 <h3>Cheatsheet de Módulos</h3>
