@@ -1061,7 +1061,7 @@ apptainer exec --nv ~/imagens/pytorch.sif python -u treino.py</code></pre>
 <tr><td><code>/home/public</code></td><td>Pasta compartilhada de projetos, visível em todos os nós. Desde 11/2026 fica fisicamente em <code>/data1/public</code>; os dois caminhos levam ao mesmo lugar</td><td>Dados e resultados usados por mais de uma pessoa</td></tr>
 <tr><td><code>/opt</code></td><td>Softwares instalados (somente leitura para usuários)</td><td>—</td></tr>
 <tr><td><code>/tmp</code> (de cada nó)</td><td>Disco local do nó (SSD), não compartilhado, sem backup. Arquivos sem acesso há 30 dias são apagados, e tudo some quando o nó reinicia</td><td>Cópia local de dados durante o job — apague ao final</td></tr>
-<tr><td><code>/scratch</code> (só no <code>work1</code>)</td><td>SSD local de 440 GB, separado do disco do sistema, não compartilhado, sem backup. Arquivos sem acesso há 14 dias são apagados</td><td>Cópia local de dados grandes em jobs no work1</td></tr>
+<tr><td><code>/scratch</code> (só no <code>work1</code> e no <code>work8</code>)</td><td>Disco local separado do disco do sistema: SSD de 440 GB no work1, HD de 870 GB no work8. Não compartilhado, sem backup. Arquivos sem acesso há 14 dias são apagados</td><td>Cópia local de dados grandes em jobs no work1 e no work8</td></tr>
 </table>
 
 <h3 id="disco-local">Disco local: quando os dados são lidos muitas vezes</h3>
@@ -1076,7 +1076,7 @@ dados para o disco local do nó <b>uma vez</b>, no início do job, e leia de lá
 #SBATCH --cpus-per-task=8
 #SBATCH --time=1-00:00:00
 
-# /scratch no work1, /tmp nos demais nós
+# /scratch no work1 e no work8, /tmp nos demais nós
 LOCAL=/tmp; [ -w /scratch ] &amp;&amp; LOCAL=/scratch
 DADOS=$LOCAL/$USER/$SLURM_JOB_ID
 mkdir -p "$DADOS"
@@ -1086,7 +1086,7 @@ rsync -a ~/meu_projeto/dados/ "$DADOS"/
 python treinar.py --dados "$DADOS"</code></pre>
 <ul>
 <li>Confira o espaço antes: <code>df -h /tmp /scratch</code>. Os nós têm de
-~340 a ~800 GB livres no <code>/tmp</code>; o <code>/scratch</code> do work1 tem ~415 GB.
+~340 a ~800 GB livres no <code>/tmp</code>; o <code>/scratch</code> tem ~415 GB no work1 e ~870 GB no work8.
 Conjunto de dados maior que isso não cabe — fale com o suporte.</li>
 <li>Se o ambiente Python (conda, venv) for grande, importá-lo da home também
 pesa; copiar o ambiente junto ajuda.</li>
